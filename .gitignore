@@ -1,0 +1,14 @@
+# Maven
+/backend/target/
+
+# Node (frontend)
+/frontend/node_modules/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# Database
+*.db
+store.db
