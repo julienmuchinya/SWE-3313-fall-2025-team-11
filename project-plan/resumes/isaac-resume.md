@@ -1,6 +1,6 @@
 # Isaac Lai
 KSU Email: ilai@students.kennesaw.edu
-## Technical Knowledege
+## Technical Knowledge
 ### Languages: 
 Java, Python, C#, Javascript, html, and CSS
 ### Software: 
