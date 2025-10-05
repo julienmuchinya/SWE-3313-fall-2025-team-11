@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><project name="Untitled Gantt Project" company="" webLink="http://" view-date="2025-09-14" view-index="0" gantt-divider-location="438" resource-divider-location="300" version="3.3.3316" locale="en_US">
+<?xml version="1.0" encoding="UTF-8"?><project name="Untitled Gantt Project" company="" webLink="http://" view-date="2025-09-21" view-index="0" gantt-divider-location="438" resource-divider-location="300" version="3.3.3316" locale="en_US">
     <description/>
     <view zooming-state="default:5" id="gantt-chart">
         <field id="tpd3" name="Name" width="244" order="0"/>
@@ -65,9 +65,9 @@
             </task>
             <task id="7" uid="88da6826c7984d5da974800e20ccb0bc" name="Video Presentation" meeting="false" start="2025-10-06" duration="1" complete="0" expand="true"/>
         </task>
-        <task id="10" uid="f91c6ec5616d4fc5badae06c49df6b06" name="Requirements" meeting="false" start="2025-10-08" duration="10" complete="0" expand="true">
+        <task id="10" uid="f91c6ec5616d4fc5badae06c49df6b06" name="Requirements" meeting="false" start="2025-10-08" duration="9" complete="0" expand="true">
             <depend id="11" type="2" difference="1" hardness="Strong"/>
-            <task id="24" uid="f227f82ce44645d7b03c79aaf50187a1" name="Requirements Writing" meeting="false" start="2025-10-08" duration="7" complete="0" expand="true">
+            <task id="24" uid="f227f82ce44645d7b03c79aaf50187a1" name="Requirements Writing" meeting="false" start="2025-10-08" duration="5" complete="0" expand="true">
                 <depend id="27" type="2" difference="0" hardness="Strong"/>
                 <task id="44" uid="5d4e854e7da34a518ffd703fc6f0b35b" name="Analysis and Elicitation" meeting="false" start="2025-10-08" duration="1" complete="0" expand="true">
                     <depend id="45" type="2" difference="0" hardness="Strong"/>
@@ -78,79 +78,79 @@
                     <depend id="29" type="2" difference="1" hardness="Rubber"/>
                     <depend id="46" type="2" difference="0" hardness="Strong"/>
                 </task>
-                <task id="46" uid="7fc8c9f13dcc41ed94f5976c41ec45ef" name="Writing" meeting="false" start="2025-10-11" duration="4" complete="0" expand="true"/>
+                <task id="46" uid="7fc8c9f13dcc41ed94f5976c41ec45ef" name="Writing" meeting="false" start="2025-10-11" duration="2" complete="0" expand="true"/>
             </task>
-            <task id="25" uid="ba3a066baab34b6ba7677be4c23d69c0" name="Case Diagram" meeting="false" start="2025-10-11" duration="3" complete="0" expand="true">
+            <task id="25" uid="ba3a066baab34b6ba7677be4c23d69c0" name="Case Diagram" meeting="false" start="2025-10-11" duration="2" complete="0" expand="true">
                 <depend id="27" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="29" uid="abd6a905ba6c4eb49a151159673827d9" name="Desicion Table" meeting="false" start="2025-10-12" duration="3" complete="0" expand="true">
+            <task id="29" uid="abd6a905ba6c4eb49a151159673827d9" name="Desicion Table" meeting="false" start="2025-10-12" duration="2" complete="0" expand="true">
                 <depend id="27" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="27" uid="68b5ba560a084bf99e16c0130dad98d8" name="Introduction" meeting="false" start="2025-10-15" duration="2" complete="0" expand="true">
+            <task id="27" uid="68b5ba560a084bf99e16c0130dad98d8" name="Introduction" meeting="false" start="2025-10-14" duration="2" complete="0" expand="true">
                 <depend id="28" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="28" uid="f8666768b8004ab185b81f456f53f4c0" name="Video Presentation" meeting="false" start="2025-10-17" duration="1" complete="0" expand="true"/>
+            <task id="28" uid="f8666768b8004ab185b81f456f53f4c0" name="Video Presentation" meeting="false" start="2025-10-16" duration="1" complete="0" expand="true"/>
         </task>
-        <task id="11" uid="0cef6d960f18417f86f5da4653a38f76" name="User Interface Design" meeting="false" start="2025-10-19" duration="9" complete="0" expand="true">
+        <task id="11" uid="0cef6d960f18417f86f5da4653a38f76" name="User Interface Design" meeting="false" start="2025-10-18" duration="10" complete="0" expand="true">
             <depend id="12" type="2" difference="0" hardness="Strong"/>
-            <task id="30" uid="736f870f81014820a2e90b130c0ac26c" name="User Interface Prototype" meeting="false" start="2025-10-19" duration="8" complete="0" expand="true">
+            <task id="30" uid="736f870f81014820a2e90b130c0ac26c" name="User Interface Prototype" meeting="false" start="2025-10-18" duration="9" complete="0" expand="true">
                 <depend id="31" type="2" difference="0" hardness="Strong"/>
-                <task id="47" uid="74500c9b75bc45a99849ff5280b7ff41" name="Plan Setup and Usablity" meeting="false" start="2025-10-19" duration="4" complete="0" expand="true">
+                <task id="47" uid="74500c9b75bc45a99849ff5280b7ff41" name="Plan Setup and Usablity" meeting="false" start="2025-10-18" duration="4" complete="0" expand="true">
                     <depend id="48" type="2" difference="0" hardness="Strong"/>
                 </task>
-                <task id="48" uid="0130197e3d624cd397cbdc84c2a46156" name="Prototype in Marvel" meeting="false" start="2025-10-23" duration="4" complete="0" expand="true"/>
+                <task id="48" uid="0130197e3d624cd397cbdc84c2a46156" name="Prototype in Marvel" meeting="false" start="2025-10-22" duration="5" complete="0" expand="true"/>
             </task>
             <task id="31" uid="217cf58e0945423894c4b983fb69ed25" name="Video Presentation" meeting="false" start="2025-10-27" duration="1" complete="0" expand="true"/>
         </task>
-        <task id="12" uid="a349efe93c1d491597ac3c5766bfa734" name="Technical Design" meeting="false" start="2025-10-28" duration="12" complete="0" expand="true">
+        <task id="12" uid="a349efe93c1d491597ac3c5766bfa734" name="Technical Design" meeting="false" start="2025-10-29" duration="12" complete="0" expand="true">
             <depend id="13" type="2" difference="0" hardness="Strong"/>
             <task id="32" uid="cb0c3bf3da194dc7abd05b2d6b4bd401" name="Implementation Language and Framework" meeting="false" start="2025-10-29" duration="3" complete="0" expand="true">
                 <depend id="35" type="2" difference="0" hardness="Rubber"/>
             </task>
-            <task id="33" uid="b0f0631bb50c4f5a82a01fac4c78840b" name="Entity Design" meeting="false" start="2025-10-28" duration="9" complete="0" expand="true">
+            <task id="33" uid="b0f0631bb50c4f5a82a01fac4c78840b" name="Entity Design" meeting="false" start="2025-10-29" duration="9" complete="0" expand="true">
                 <depend id="35" type="2" difference="0" hardness="Rubber"/>
-                <task id="55" uid="401098d3ac244347a2925a364ad08499" name="Plan Design" meeting="false" start="2025-10-28" duration="4" complete="0" expand="true">
+                <task id="55" uid="401098d3ac244347a2925a364ad08499" name="Plan Design" meeting="false" start="2025-10-29" duration="4" complete="0" expand="true">
                     <depend id="49" type="2" difference="1" hardness="Strong"/>
                     <depend id="50" type="2" difference="0" hardness="Strong"/>
                 </task>
-                <task id="50" uid="6d50836e8ba3444eb8d89686518af9e4" name="Description Table" meeting="false" start="2025-11-01" duration="3" complete="0" expand="true">
+                <task id="50" uid="6d50836e8ba3444eb8d89686518af9e4" name="Description Table" meeting="false" start="2025-11-02" duration="3" complete="0" expand="true">
                     <depend id="53" type="2" difference="0" hardness="Rubber"/>
                 </task>
-                <task id="49" uid="904557947c7c41a49b7a247809473f02" name="Relationship Diagram" meeting="false" start="2025-11-02" duration="3" complete="0" expand="true">
+                <task id="49" uid="904557947c7c41a49b7a247809473f02" name="Relationship Diagram" meeting="false" start="2025-11-03" duration="3" complete="0" expand="true">
                     <depend id="53" type="2" difference="0" hardness="Rubber"/>
                 </task>
-                <task id="53" uid="becdcc5091584e9cbe9c93feab09b36f" name="Example Data" meeting="false" start="2025-11-05" duration="1" complete="0" expand="true"/>
+                <task id="53" uid="becdcc5091584e9cbe9c93feab09b36f" name="Example Data" meeting="false" start="2025-11-06" duration="1" complete="0" expand="true"/>
             </task>
             <task id="34" uid="627429a814d64363be49cded91594a4c" name="Data Storage" meeting="false" start="2025-10-29" duration="6" complete="0" expand="true">
                 <depend id="35" type="2" difference="0" hardness="Rubber"/>
                 <task id="51" uid="a4504540f84c4394bf7f4a8b36099667" name="Seed Data" meeting="false" start="2025-10-29" duration="1" complete="0" expand="true"/>
                 <task id="52" uid="df8bd51fb28f4317867478f56276373a" name="Storage Plan" meeting="false" start="2025-10-29" duration="6" complete="0" expand="true"/>
             </task>
-            <task id="35" uid="3d35934ca05b43a09d7f7785f13a955f" name="Coding Style Guide" meeting="false" start="2025-11-06" duration="2" complete="0" expand="true">
+            <task id="35" uid="3d35934ca05b43a09d7f7785f13a955f" name="Coding Style Guide" meeting="false" start="2025-11-07" duration="2" complete="0" expand="true">
                 <depend id="36" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="36" uid="3e9306b3852649289b573cfc42b803c7" name="Video Presentation" meeting="false" start="2025-11-08" duration="1" complete="0" expand="true"/>
+            <task id="36" uid="3e9306b3852649289b573cfc42b803c7" name="Video Presentation" meeting="false" start="2025-11-09" duration="1" complete="0" expand="true"/>
         </task>
-        <task id="13" uid="b79be19860734dbc81adcbf2287af092" name="Implementation" meeting="false" start="2025-11-09" duration="18" complete="0" expand="true">
+        <task id="13" uid="b79be19860734dbc81adcbf2287af092" name="Implementation" meeting="false" start="2025-11-10" duration="18" complete="0" expand="true">
             <depend id="14" type="2" difference="0" hardness="Strong"/>
-            <task id="37" uid="652baecfb100478f8d5e498e1987e535" name="Functionality" meeting="false" start="2025-11-09" duration="17" complete="0" expand="true">
+            <task id="37" uid="652baecfb100478f8d5e498e1987e535" name="Functionality" meeting="false" start="2025-11-10" duration="17" complete="0" expand="true">
                 <depend id="39" type="2" difference="0" hardness="Strong"/>
             </task>
             <task id="38" uid="c85d25356eba40369936d744b61753a6" name="README.md" meeting="false" start="2025-11-24" duration="2" complete="0" expand="true">
                 <depend id="39" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="39" uid="2f80711dfebc4b9c86cb7626e5c78300" name="VIdeo Presentation (optional)" meeting="false" start="2025-11-26" duration="1" complete="0" expand="true"/>
+            <task id="39" uid="2f80711dfebc4b9c86cb7626e5c78300" name="VIdeo Presentation (optional)" meeting="false" start="2025-11-27" duration="1" complete="0" expand="true"/>
         </task>
-        <task id="14" uid="b874ac04964542beb8c583ebd6f8d6f3" name="Final Presentation" meeting="false" start="2025-11-27" duration="3" complete="0" expand="true">
+        <task id="14" uid="b874ac04964542beb8c583ebd6f8d6f3" name="Final Presentation" meeting="false" start="2025-11-28" duration="3" complete="0" expand="true">
             <depend id="54" type="2" difference="0" hardness="Strong"/>
-            <task id="40" uid="76348d85ba2a4eeab67f2e1af287c645" name="Script Presentation" meeting="false" start="2025-11-27" duration="2" complete="0" expand="true">
+            <task id="40" uid="76348d85ba2a4eeab67f2e1af287c645" name="Script Presentation" meeting="false" start="2025-11-28" duration="2" complete="0" expand="true">
                 <depend id="43" type="2" difference="0" hardness="Strong"/>
-                <task id="41" uid="9747d3c5134443d6b23abb06bfbe389a" name="UI design Comparison" meeting="false" start="2025-11-27" duration="2" complete="0" expand="true"/>
+                <task id="41" uid="9747d3c5134443d6b23abb06bfbe389a" name="UI design Comparison" meeting="false" start="2025-11-28" duration="2" complete="0" expand="true"/>
                 <task id="42" uid="055ab4a835704419a2f821b353cfe8fe" name="Cool Extras" meeting="false" start="2025-11-28" duration="1" complete="0" expand="true"/>
             </task>
-            <task id="43" uid="2f1a5dbab9bd435eb992ad08585f4ca5" name="Rehearsal" meeting="false" start="2025-11-29" duration="1" complete="0" expand="true"/>
+            <task id="43" uid="2f1a5dbab9bd435eb992ad08585f4ca5" name="Rehearsal" meeting="false" start="2025-11-30" duration="1" complete="0" expand="true"/>
         </task>
-        <task id="54" uid="64519c1941ea4f1eabc7c5eb72fb5aff" name="Peer Review" meeting="false" start="2025-11-30" duration="9" complete="0" expand="true"/>
+        <task id="54" uid="64519c1941ea4f1eabc7c5eb72fb5aff" name="Peer Review" meeting="false" start="2025-12-01" duration="9" complete="0" expand="true"/>
     </tasks>
     <resources/>
     <allocations/>
