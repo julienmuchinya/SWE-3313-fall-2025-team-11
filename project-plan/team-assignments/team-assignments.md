@@ -1,9 +1,15 @@
 # Jeff's Roughnecks (Team 11)
+
+---
+
 ## Matthew Moyers [Resume](https://github.com/julienmuchinya/SWE-3313-fall-2025-team-11/blob/main/project-plan/resumes/matthew-resume.md#matthew-moyers)
-*Matthew is the Project Leader. He will act as Quality Assurance, ensure dealines are met, and assist with technical endeavors.*
+* Matthew is the Project Leader. He acts as Quality Assurance, ensures dealines are met, and assists with technical endeavors.
+  
 ## Isaac Lai [Resume](https://github.com/julienmuchinya/SWE-3313-fall-2025-team-11/blob/main/project-plan/resumes/isaac-resume.md)
-*info*
-## Julien Muchinya 
-*info*
-## Cooper Parrish
-*info*
+* Isaac is the Programmer. With proficiency in 6 languages and an eye for details, his skills are invaluable for coding-related challenges.
+  
+## Julien Muchinya [Resume](https://github.com/julienmuchinya/SWE-3313-fall-2025-team-11/blob/main/project-plan/resumes/Julien-Muchinya_resume.md)
+* Julien is the Technical Specialist. His wide array of experience in software and databases make him a valuable asset for the team.
+  
+## Cooper Parrish [Resume](https://github.com/julienmuchinya/SWE-3313-fall-2025-team-11/blob/main/project-plan/resumes/cooper-parrish_resume.md)
+* Cooper is the Technical Support. With an adaptable skillset of programming and database management, he is able to contribute to any task.
