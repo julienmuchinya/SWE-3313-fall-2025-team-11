@@ -6,9 +6,9 @@ Browse the links below for more information regarding the project plan and our t
 
 ## Meet Our Team
 
-- [Lai, Isaac](/project-plan/resumes/issac-resume.md)
+- [Lai, Isaac](/project-plan/resumes/isaac-resume.md)
 - [Moyers, Matthew](/project-plan/resumes/matthew-resume.md)
-- [Muchinya, Julien](/project-plan/resumes/Julien-Muchinya.md)
+- [Muchinya, Julien](/project-plan/resumes/Julien-Muchinya_resume.md)
 - [Parrish, Cooper](/project-plan/resumes/cooper-parrish_resume.md)
 
 ## Team Assignments
@@ -27,6 +27,7 @@ Browse the links below for more information regarding the project plan and our t
 - Our detailed project plan, including a gantt chart and downloadable project file: 
    
 - Click [here](project-plan/README.md)
+
 
 
 
