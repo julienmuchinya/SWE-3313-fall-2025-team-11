@@ -15,17 +15,18 @@ Browse the links below for more information regarding the project plan and our t
 
 - To distribute the work evenly and efficiently, with four team members we created four seperate roles: Project Leader, Programmer, Technical Specialist, and Technical Support.
 
-- Click [here](project-plan/team-assignments/team-assignments.md) for a more detailed explanation of our team assignments.
+- Click [here](project-plan/team-assignments/README.md) for a more detailed explanation of our team assignments.
 
 ## Technology Selection
 - To build our website we will be using Java paired with the Spring Boot framework and SQLite as our database.
 
-- Click [here](project-plan/technology-selection/technology-selection.md) for a more detailed look at the technologies and tools we are using.
+- Click [here](project-plan/technology-selection/README.md) for a more detailed look at the technologies and tools we are using.
 
 ## Project Plan (Gantt Chart)
 
 - Our detailed project plan, including a gantt chart and downloadable project file: 
    
 - Click [here](project-plan/README.md)
+
 
 
