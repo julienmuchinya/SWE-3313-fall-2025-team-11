@@ -27,6 +27,11 @@ Browse the links below for more information regarding the project plan and our t
 - Our detailed project plan, including a gantt chart and downloadable project file: 
    
 - Click [here](project-plan/README.md)
+## Requirements
+
+- [Use Case Diagram](requirements/use-case.md)
+
+
 
 
 
