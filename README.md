@@ -29,7 +29,10 @@ Browse the links below for more information regarding the project plan and our t
 - Click [here](project-plan/README.md)
 ## Requirements
 
-- [Use Case Diagram](requirements/use-case.md)
+**Use Case Diagram**  
+This diagram shows the main actors and features of our Online Art Store System.  
+
+[_Click here to see the use case diagram_](requirements/use-case.md)
 
 
 
