@@ -6,7 +6,7 @@ It includes the major features for all project versions (V1–V3), including AI 
 ---
 
 ## Use Case Diagram
-![Use Case Diagram](use-case-diagram.png)
+![Online Art Store Use Case Diagram](use-case-diagram.png)
 
 ```plantuml
 @startuml
