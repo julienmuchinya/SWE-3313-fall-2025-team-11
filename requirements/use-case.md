@@ -6,7 +6,7 @@ It includes the major features for all project versions (V1–V3), including AI 
 ---
 
 ## Use Case Diagram
-<img width="611" height="371" alt="use-case" src="https://github.com/user-attachments/assets/32302e11-e148-4ef9-9797-7e5e467efe85" />
+![Use Case Diagram](use-case-diagram.png)
 
 ```plantuml
 @startuml
