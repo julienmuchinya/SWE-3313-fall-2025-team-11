@@ -27,15 +27,28 @@ Browse the links below for more information regarding the project plan and our t
 - Our detailed project plan, including a gantt chart and downloadable project file: 
    
 - Click [here](project-plan/README.md)
-## Requirements
-
-**Use Case Diagram**  
-This diagram shows the main actors and features of our Online Art Store System.  
-
-[_Click here to see the use case diagram_](requirements/use-case.md)
 
 
 
+# Requirements
 
+This is the requirements section, developing the technical and non-technical requirement obtained from the cilent.
 
+The links below elaborate on the requirements section of the project.
 
+## Requirements Writing
+- The requirements writing enumerates all the requirements for the project throughout its verison
+
+- Click [here](requirements/README.md) to see the requirements in detail
+
+## Use Case Diagram
+- This diagram shows the main actors and features of our Online Art Store System.  
+
+- Click [here](requirements/use-case.md) to see the use case diagram
+
+## Decision Table
+- This diagram shows the ways users are allow to interact with the system
+
+- Click [here](requirements/decision-table.md) to see the decision table
+
+## Video Presentation
