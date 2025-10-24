@@ -52,3 +52,6 @@ The links below elaborate on the requirements section of the project.
 - Click [here](requirements/decision-table.md) to see the decision table
 
 ## Video Presentation
+
+- Loom video show all of the portions of the requirements section
+- Click [here](requirements/video-presentation.md)
