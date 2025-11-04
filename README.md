@@ -55,3 +55,14 @@ The links below elaborate on the requirements section of the project.
 
 - Loom video show all of the portions of the requirements section
 - Click [here](requirements/video-presentation.md)
+
+# User Interface Design
+
+This section contains a Marvel mockup of the website UI Design as well as a video presentation.
+
+## Marvel UI Mockup
+- [High Fidelity User Interface Design (Marvel)](https://marvelapp.com/prototype/d06d575)
+
+## Video Presentation
+- [Loom Video](https://www.loom.com/share/4c833633d5db4cc4b2e919608f32d93d)
+- This 3 minute Loom video goes over design decisions as well as showcasing a demonstration of the user/admin experience.
