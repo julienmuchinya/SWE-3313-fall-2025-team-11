@@ -64,5 +64,6 @@ This section contains a Marvel mockup of the website UI Design as well as a vide
 - [High Fidelity User Interface Design (Marvel)](https://marvelapp.com/prototype/d06d575)
 
 ## Video Presentation
-- [Loom Video](https://www.loom.com/share/4c833633d5db4cc4b2e919608f32d93d)
+- [Loom Video](https://www.loom.com/share/1bb0e7372d41442b9ae301de37911a83)
 - This 3 minute Loom video goes over design decisions as well as showcasing a demonstration of the user/admin experience.
+
