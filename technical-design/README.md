@@ -26,7 +26,7 @@ SQLite
 - SQlite is being used so as stated in the instructions JDBC will be used
 - JDBC or Java Database Connectivity does as its name applies and actions to interface SQLite and Java
 ## Entity Relationship Diagram
-![Diagram](technical-design/assets/entity-relationship-diagram.png)
+![Diagram](.../assets/entity-relationship-diagram.png)
 ## Entity/Field Descriptions
 ## Data Examples
 ## Database Seed Data
@@ -62,6 +62,4 @@ if (x > 0) {
 ### Comments
 - Comments refrencing multiple lines are place on the line before
 - Comments refrencing a single line are place directly after on the same line
-
-##entity-relationship-diagram
 
