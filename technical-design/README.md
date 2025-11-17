@@ -60,7 +60,8 @@ if (x > 0) {
 ```
 
 ### Comments
-- Comments refrencing multiple lines
+- Comments refrencing multiple lines are place on the line before
+- Comments refrencing a single line are place directly after on the same line
 
 ##entity-relationship-diagram
 
