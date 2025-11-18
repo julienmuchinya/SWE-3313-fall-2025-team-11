@@ -13,7 +13,7 @@
 ## Implementation Language
 Java
 - Mainly chosen since its known by all members of the team.
-- Java is also well supported, the IntelliJ IDE and the following framework
+- Java is also well supported, like with the IntelliJ IDE and the following framework
 
 HTML and CSS
 - Prolific language for web, we will be using it as well
