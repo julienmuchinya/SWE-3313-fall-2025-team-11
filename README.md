@@ -68,3 +68,12 @@ This section contains a Marvel mockup of the website UI Design as well as a vide
 - This 4 minute Loom video goes over design decisions as well as showcasing a demonstration of the user/admin experience.
 
 
+# Technical Design
+- The Technical Design document describes out the work for Implementation should be done, better defining the ways in switch the team should code to crystalize and simplified the programming.
+- Click [here](technical-design/README.md)
+
+## Video Presentation
+- Loom Video
+
+
+
