@@ -28,7 +28,7 @@ SQLite
 ## Entity Relationship Diagram
 ![entity-relationship-diagram.png](assets/entity-relationship-diagram.png)
 ## Entity/Field Descriptions
-[Table of Field Descriptions](assets/table-of-field-descriptions.pdf)
+![Table of Field Descriptions](assets/table-of-field-descriptions.png)
 ## Data Examples
 ![example-data.png](assets/example-data.png)
 ## Database Seed Data
