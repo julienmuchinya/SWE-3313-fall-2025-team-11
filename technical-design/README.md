@@ -34,6 +34,140 @@ SQLite
 ## Database Seed Data
 ![database-seed-data.png](assets/database-seed-data.png)
 ## Authentication and Authorization Plan
+# Authentication and Authorization Plan
+
+This section describes how the system identifies whether a user is a **Customer** or an **Administrator**, and how their actions are authorized. The application uses **one login screen** for all users, so authentication (identity) and authorization (permissions) are handled separately. 
+---
+
+## Authentication (Identify Who Is Logging In)
+
+User information is stored in the `User` table, which includes login credentials and the role assigned to the user.
+
+### User Table Structure
+
+| Field          | Type              |
+|----------------|-------------------|
+| `UserId`       | int               |
+| `Email`        | nvarchar(100)     |
+| `PasswordHash` | nvarchar(255)     |
+| `Role`         | nvarchar(20)      |
+
+The `Role` field determines whether the user is a `"Customer"` or an `"Administrator"`.
+
+### Login Flow (Java + Spring Boot + JDBC + SQLite)
+
+1. The user submits `Email` and `Password` to the `/login` endpoint.
+2. The backend queries the database:
+
+   ```sql
+   SELECT UserId, Email, PasswordHash, Role
+   FROM User
+   WHERE Email = ?;
+   ```
+
+3. If a matching record is found, the backend verifies the provided password using a password hashing library (such as bcrypt).
+4. If the password is valid, the backend creates an authenticated session (or token) containing:
+   - `UserId`
+   - `Email`
+   - `Role`
+5. If authentication fails, the request is rejected.
+
+### Authentication Code Example (Java)
+
+```java
+User user = userRepository.findByEmail(email);
+if (user == null || !passwordEncoder.matches(rawPassword, user.getPasswordHash())) {
+    throw new AuthenticationException("Invalid E-Mail or Password");
+}
+
+AuthSession session = new AuthSession(
+    user.getUserId(),
+    user.getEmail(),
+    user.getRole()
+);
+```
+
+---
+
+## Authorization (Define What the Authenticated User Can Do)
+
+Authorization is handled separately after authentication.  
+The session created during login is attached to each request and contains the user’s `Role`.  
+Role-based logic determines which actions the user can perform.
+
+### Role Permissions
+
+#### Customer
+- Browse and search products
+- Add items to cart
+- Place orders
+- View their own orders
+
+#### Administrator
+- All Customer capabilities
+- Add, edit, and remove products
+- Manage inventory
+- View and export sales reports
+- Promote users to Administrator
+
+### Authorization Flow
+
+For each backend operation:
+
+1. Verify the request contains a valid authenticated session.
+2. Read the `Role` value from the session.
+3. Compare the role with the access level required by the endpoint.
+4. If the user lacks the required permissions, return a "Forbidden" response.
+
+### Authorization Code Example (Java)
+
+```java
+void requireAdministrator(AuthSession session) {
+    if (!"Administrator".equals(session.getRole())) {
+        throw new AuthorizationException("Administrator privileges required");
+    }
+}
+```
+
+---
+
+## Polymorphism-Based Role Handling (Class Diagram Included)
+
+If the application uses polymorphism to handle roles, each authenticated user is wrapped in a context object representing its specific role.
+
+```plantuml
+@startuml
+class UserContext {
+  +UserId : int
+  +Email : string
+  +Role : string
+  +isAdministrator() : boolean
+}
+
+class CustomerContext {
+  +isAdministrator() : boolean
+}
+
+class AdministratorContext {
+  +isAdministrator() : boolean
+}
+
+UserContext <|-- CustomerContext
+UserContext <|-- AdministratorContext
+@enduml
+```
+
+- `CustomerContext.isAdministrator()` returns **false**  
+- `AdministratorContext.isAdministrator()` returns **true**  
+- Controllers check permissions by calling:
+
+```
+userContext.isAdministrator()
+```
+
+---
+
+
 ## Coding Style Guide
 ### Naming Conventions
 camelCase
