@@ -133,7 +133,7 @@ void requireAdministrator(AuthSession session) {
 
 If the application uses polymorphism to handle roles, each authenticated user is wrapped in a context object representing its specific role.
 ## Polymorphism-Based Role Handling (Class Diagram Included)
-![UML](/assets/im-eg.png)
+![UML](/assets/im-eg.png) 
 ```plantuml
 @startuml
 class UserContext {
