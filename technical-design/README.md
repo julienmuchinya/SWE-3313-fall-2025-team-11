@@ -199,3 +199,6 @@ if (x > 0) {
 - Comments refrencing multiple lines are place on the line before
 - Comments refrencing a single line are place directly after on the same line
 
+## Presentation
+[Loom Video](https://www.loom.com/share/6d75bb58f5484b49b4eac880c0a7d361)
+This 4 minute video provides a brief rundown of the Technical Design stage of the project.
