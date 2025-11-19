@@ -34,10 +34,9 @@ SQLite
 ## Database Seed Data
 ![database-seed-data.png](assets/database-seed-data.png)
 ## Authentication and Authorization Plan
-# Authentication and Authorization Plan
-
-This section describes how the system identifies whether a user is a **Customer** or an **Administrator**, and how their actions are authorized. The application uses **one login screen** for all users, so authentication (identity) and authorization (permissions) are handled separately. 
 ---
+This section describes how the system identifies whether a user is a **Customer** or an **Administrator**, and how their actions are authorized. The application uses **one login screen** for all users, so authentication (identity) and authorization (permissions) are handled separately.
+
 
 ## Authentication (Identify Who Is Logging In)
 
