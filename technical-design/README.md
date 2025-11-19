@@ -30,9 +30,9 @@ SQLite
 ## Entity/Field Descriptions
 [Table of Field Descriptions](assets/table-of-field-descriptions.pdf)
 ## Data Examples
-![example-data (2).png](assets/example-data (2).png)
+![example-data.png](assets/example-data.png)
 ## Database Seed Data
-![database-seed-data (2).png](assets/database-seed-data (2).png)
+![database-seed-data.png](assets/database-seed-data.png)
 ## Authentication and Authorization Plan
 ## Coding Style Guide
 ### Naming Conventions
