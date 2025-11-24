@@ -1,0 +1,251 @@
+[33mcommit fc42215362c00d5707dfcbc86675dbbaf63e09b9[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/julien-branch[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Julien Muchinya <muchinyajulien@gmail.com>
+Date:   Tue Nov 18 23:24:43 2025 -0500
+
+    Remove polymorphism role handling section from README
+    
+    Removed section on polymorphism-based role handling and UML diagram.
+
+[33mcommit 72127b4cfef7e9373276b4e5ccf54fdfa54ec8fa[m
+Author: Zohlus <234997852+Zohlus@users.noreply.github.com>
+Date:   Tue Nov 18 23:14:51 2025 -0500
+
+    Update README.md
+
+[33mcommit a0868d9b0ca0241589246e3913879fffc8550282[m
+Author: Zohlus <234997852+Zohlus@users.noreply.github.com>
+Date:   Tue Nov 18 23:14:10 2025 -0500
+
+    Update README.md with video
+
+[33mcommit 670852bcb1c206adcf69adeea98c188f537de910[m
+Author: Julien Muchinya <muchinyajulien@gmail.com>
+Date:   Tue Nov 18 23:09:32 2025 -0500
+
+    Fix formatting for UML diagram in README
+
+[33mcommit e3e7c0c860040b4e7db0983820b1b0870c2b2cde[m
+Author: Julien Muchinya <muchinyajulien@gmail.com>
+Date:   Tue Nov 18 23:06:39 2025 -0500
+
+    Add files via upload
+
+[33mcommit 7502a0ea47086fa233b505f989a8edbbd2f01dd6[m
+Author: Julien Muchinya <muchinyajulien@gmail.com>
+Date:   Tue Nov 18 23:06:06 2025 -0500
+
+    Delete technical-design/assets/im eg.png
+
+[33mcommit 52d5b289e4b138427675a543907c1e1ff2b99814[m
+Author: Julien Muchinya <muchinyajulien@gmail.com>
+Date:   Tue Nov 18 23:04:33 2025 -0500
+
+    Update README with UML diagram for role handling
+    
+    Added UML diagram for polymorphism-based role handling.
+
+[33mcommit 9a36b86d04899f84594256e826741f2818c830e7[m
+Author: Julien Muchinya <muchinyajulien@gmail.com>
+Date:   Tue Nov 18 22:38:48 2025 -0500
+
+    Refactor Authentication and Authorization section
+    
+    Removed redundant header for the Authentication and Authorization Plan section.
+
+[33mcommit 28c73dbc65702d07190cf21679721a2b379f52dc[m
+Author: Julien Muchinya <muchinyajulien@gmail.com>
+Date:   Tue Nov 18 22:28:29 2025 -0500
+
+    Document authentication and authorization processes
+    
+    Added detailed authentication and authorization plan including user roles, login flow, and code examples.
+
+[33mcommit e204f17ac01574e8e11bdfd5a331600d26ea7911[m
+Author: Julien Muchinya <muchinyajulien@gmail.com>
+Date:   Tue Nov 18 22:16:32 2025 -0500
+
+    Add files via upload
+
+[33mcommit b83515dfecb5c0b0a0f044694736232c56e242a3[m
+Author: Zohlus <234997852+Zohlus@users.noreply.github.com>
+Date:   Tue Nov 18 22:10:18 2025 -0500
+
+    Update README.md
+
+[33mcommit ec0d40eda43a5a025d335a23c5d13ac950e9f147[m
+Author: Zohlus <234997852+Zohlus@users.noreply.github.com>
+Date:   Tue Nov 18 22:09:50 2025 -0500
+
+    Rename Screenshot 2025-11-18 220822.png to table-of-field-descriptions.png
+
+[33mcommit 40f52e7c67de280748d52edde69959889be61728[m
+Author: Zohlus <234997852+Zohlus@users.noreply.github.com>
+Date:   Wed Nov 19 03:08:47 2025 +0000
+
+    Add files via upload
+
+[33mcommit 4447a155470649efb7def3588c69f7515bde49c8[m
+Author: Zohlus <234997852+Zohlus@users.noreply.github.com>
+Date:   Tue Nov 18 22:06:49 2025 -0500
+
+    Delete technical-design/assets/table-of-field-descriptions.pdf
+
+[33mcommit 32eb879ec5c747d7a435a4d3b0b94c17df5662ed[m
+Author: cooperparrish <cparrish03888@gmail.com>
+Date:   Tue Nov 18 21:41:12 2025 -0500
+
+    Update README.md
+
+[33mcommit 91a2e1b7fea44481da113646d0ca5d2fc1066912[m
+Author: cooperparrish <cparrish03888@gmail.com>
+Date:   Tue Nov 18 21:40:53 2025 -0500
+
+    Rename example-data (2).png to example-data.png
+
+[33mcommit 4e0523f1af38931f678814328cb4290f4d88c609[m
+Author: cooperparrish <cparrish03888@gmail.com>
+Date:   Tue Nov 18 21:40:39 2025 -0500
+
+    Rename database-seed-data (2).png to database-seed-data.png
+
+[33mcommit 62c63cdeb7ebfa96f2b6475f4a4150baf277e02c[m
+Author: cooperparrish <cparrish03888@gmail.com>
+Date:   Tue Nov 18 21:39:31 2025 -0500
+
+    Update README.md
+
+[33mcommit 6228949cb48e7c566c0ea03f01a56b770959d052[m
+Author: cooperparrish <cparrish03888@gmail.com>
+Date:   Tue Nov 18 21:38:40 2025 -0500
+
+    Update README.md
+
+[33mcommit 2be4185d2ddfb5b6795a6c2b0a5ce2b6c945a9af[m
+Author: cooperparrish <cparrish03888@gmail.com>
+Date:   Tue Nov 18 21:37:57 2025 -0500
+
+    Update README.md
+
+[33mcommit 317eeb09fb5b2157c867074a9b8621a7df378e86[m
+Author: cooperparrish <cparrish03888@gmail.com>
+Date:   Tue Nov 18 21:37:19 2025 -0500
+
+    Add files via upload
+
+[33mcommit 1080f143ae4e0cecbd867c3dbcff4b9d64b9e32a[m
+Author: cooperparrish <cparrish03888@gmail.com>
+Date:   Tue Nov 18 21:36:56 2025 -0500
+
+    Delete technical-design/assets/example-data.png
+
+[33mcommit f9f584b5c798a7d07dd03e7ab9222dcc8d66c04a[m
+Author: cooperparrish <cparrish03888@gmail.com>
+Date:   Tue Nov 18 21:34:35 2025 -0500
+
+    Rename database-seed-data.png to database-seed-data (2).png
+
+[33mcommit 80db892f554549a95b02b36e04de84a7bbdf2e07[m
+Author: cooperparrish <cparrish03888@gmail.com>
+Date:   Tue Nov 18 21:34:05 2025 -0500
+
+    Rename database-seed-data (2).png to database-seed-data.png
+
+[33mcommit db805bf4fd947b09f3f4f3ba55812722e09b34d7[m
+Author: cooperparrish <cparrish03888@gmail.com>
+Date:   Tue Nov 18 21:33:44 2025 -0500
+
+    Add files via upload
+
+[33mcommit 8a9e4a1c52fb8867f1e98d987ea730fce19a18de[m
+Author: cooperparrish <cparrish03888@gmail.com>
+Date:   Tue Nov 18 21:32:47 2025 -0500
+
+    Delete technical-design/assets/database-seed-data.png
+
+[33mcommit 69153b18e283dd2cfc2f3922976d8100e599cbdf[m
+Author: Julien Muchinya <muchinyajulien@gmail.com>
+Date:   Tue Nov 18 21:30:24 2025 -0500
+
+    Update README with entity relationship diagram
+
+[33mcommit 1256c8fad31aab804ae10cb7546475eb1a00929b[m
+Author: Julien Muchinya <muchinyajulien@gmail.com>
+Date:   Tue Nov 18 21:29:37 2025 -0500
+
+    Update README.md
+
+[33mcommit eeb5cab99541134911a199edd7926d110bd72161[m
+Author: Julien Muchinya <muchinyajulien@gmail.com>
+Date:   Tue Nov 18 21:28:32 2025 -0500
+
+    Add files via upload
+
+[33mcommit 14eb94ad064655bee3d082c18d7c121f483dc531[m
+Author: Julien Muchinya <muchinyajulien@gmail.com>
+Date:   Tue Nov 18 21:27:32 2025 -0500
+
+    Delete technical-design/assets/entity-relationship-diagram.png
+
+[33mcommit 4d254727ce6247617fd8e7a791355dc876371384[m
+Author: Julien Muchinya <muchinyajulien@gmail.com>
+Date:   Tue Nov 18 21:27:05 2025 -0500
+
+    Add files via upload
+
+[33mcommit b17035cb69e1155d104548304c3f4b2562d23097[m
+Author: Julien Muchinya <muchinyajulien@gmail.com>
+Date:   Tue Nov 18 21:26:46 2025 -0500
+
+    Delete technical-design/assets/entity-relationship-diagram.png
+
+[33mcommit b439866506b3a38f940ff45d96086bc6d7c932c9[m
+Author: Julien Muchinya <muchinyajulien@gmail.com>
+Date:   Tue Nov 18 21:26:01 2025 -0500
+
+    Add files via upload
+
+[33mcommit aec4706b53bba00bb9e055c622a42eb4a8b3a863[m
+Author: Julien Muchinya <muchinyajulien@gmail.com>
+Date:   Tue Nov 18 21:25:29 2025 -0500
+
+    Delete technical-design/assets/entity-relationship-diagram.png
+
+[33mcommit 3a6882514bf96af5d627fc377e71da43375b8bf8[m
+Author: cooperparrish <cparrish03888@gmail.com>
+Date:   Tue Nov 18 20:22:49 2025 -0500
+
+    Update README.md
+
+[33mcommit 38c0d05c0c28bc2082a22ab14f4b260cb64b7b2e[m
+Author: cooperparrish <cparrish03888@gmail.com>
+Date:   Tue Nov 18 20:22:03 2025 -0500
+
+    Update README.md
+
+[33mcommit 9274c6681f6456d11eaa42c0126c3b19b8f05230[m
+Author: cooperparrish <cparrish03888@gmail.com>
+Date:   Tue Nov 18 20:20:02 2025 -0500
+
+    Add files via upload
+
+[33mcommit d2802b3e82e65b946f3744a8e267a5d7d970bde1[m
+Author: cooperparrish <cparrish03888@gmail.com>
+Date:   Tue Nov 18 20:12:04 2025 -0500
+
+    Add files via upload
+
+[33mcommit 6ac911062905cf5f143509876fc378ec60878765[m
+Author: cooperparrish <cparrish03888@gmail.com>
+Date:   Tue Nov 18 20:11:20 2025 -0500
+
+    Delete technical-design/assets/database-seed-data
+
+[33mcommit abc279f4094293acda9c93266c1b88c94b10bf1f[m
+Author: cooperparrish <cparrish03888@gmail.com>
+Date:   Tue Nov 18 20:10:10 2025 -0500
+
+    Rename Screenshot 2025-11-18 200804.png to database-seed-data
+
+[33mcommit fce87b743793eba76f34025625e78faf68751a88[m
+Author: cooperparrish <cparrish03888@gmail.com>
+Date:   Tue 
