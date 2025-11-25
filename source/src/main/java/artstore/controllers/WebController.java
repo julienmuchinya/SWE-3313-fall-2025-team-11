@@ -39,9 +39,9 @@ public class WebController {
     public String receipt() {
         return "receipt";
     }
-    @GetMapping("/admin")
-    public String admin() {
-        return "admin";
+    @GetMapping("/admin-page")
+    public String adminPage() {
+        return "admin-page";
     }
 
 }
