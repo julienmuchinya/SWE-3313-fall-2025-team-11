@@ -1,36 +1,43 @@
 package artstore.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "User")
 public class User {
 
     @Id
-    private String email;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long userId;
 
     private String firstName;
     private String lastName;
-    private String password;
-    private boolean role;  // true = admin, false = normal user
-    private String createdDate;
+    private String email;
+    private String passwordHash;
+    private String role;
+    private LocalDateTime createdAt;
 
-    public User() {}
-
-    public User(String firstName, String lastName, String email, String password, boolean role, String createdDate) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
-        this.role = role;
-        this.createdDate = createdDate;
+    public User() {
     }
 
-    // Getters and setters
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 
     public String getFirstName() {
         return firstName;
     }
+
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
@@ -38,6 +45,7 @@ public class User {
     public String getLastName() {
         return lastName;
     }
+
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
@@ -45,28 +53,32 @@ public class User {
     public String getEmail() {
         return email;
     }
+
     public void setEmail(String email) {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
-    }
-    public void setPassword(String password) {
-        this.password = password;
+    public String getPasswordHash() {
+        return passwordHash;
     }
 
-    public boolean getRole() {
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
+    }
+
+    public String getRole() {
         return role;
     }
-    public void setRole(boolean role) {
+
+    public void setRole(String role) {
         this.role = role;
     }
 
-    public String getCreatedDate() {
-        return createdDate;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
-    public void setCreatedDate(String createdDate) {
-        this.createdDate = createdDate;
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 }
