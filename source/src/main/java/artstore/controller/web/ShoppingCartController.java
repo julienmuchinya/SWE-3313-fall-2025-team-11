@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class ShoppingCartController {
     @GetMapping("shopping-cart")
-    public String index() {
+    public String shoppingCart() {
         return "shopping-cart";
     }
 }

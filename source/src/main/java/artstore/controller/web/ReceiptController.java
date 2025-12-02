@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class ReceiptController {
     @GetMapping("receipt")
-    public String index() {
+    public String receipt() {
         return "receipt";
     }
 }

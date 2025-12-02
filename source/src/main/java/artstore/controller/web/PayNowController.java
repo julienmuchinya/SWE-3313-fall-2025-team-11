@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class PayNowController {
     @GetMapping("/pay-now")
-    public String index() {
+    public String payNow() {
         return "pay-now";
     }
 }
