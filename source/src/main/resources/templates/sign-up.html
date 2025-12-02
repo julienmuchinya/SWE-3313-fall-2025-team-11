@@ -1,11 +1,29 @@
 <!DOCTYPE html>
-<html lang="en"
-    xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Sign Up</title>
+    <link rel="stylesheet" th:href="@{/css/sign-in.css}">
 </head>
 <body>
-<a th:href="@{/index}">home</a>
+
+<a href="/" class="home-btn">Home</a>
+<a th:href="@{/sign-in}" class="second-btn">Sign In</a>
+
+<div class="login-box">
+    <form th:action="@{/sign-up}" method="post">
+
+        <input type="text" th:name="username" placeholder="Username" class="input-field">
+        <input type="text" th:name="email" placeholder="Email Address" class="input-field">
+        <input type="text" th:name="confirmEmail" placeholder="Confirm Email Address" class="input-field">
+        <input type="text" th:name="password" placeholder="Password" class="input-field">
+        <input type="text" th:name="confirmPassword" placeholder="Confirm Password" class="input-field">
+
+        <div th:if="${error}" class="error-msg" th:text="${error}"></div>
+
+        <button type="submit" class="sign-in-btn">Sign In</button>
+    </form>
+</div>
+
 </body>
 </html>

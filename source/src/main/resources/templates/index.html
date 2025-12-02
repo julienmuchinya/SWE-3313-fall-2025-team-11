@@ -1,13 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Home</title>
+    <title>Roughneck Art Shop</title>
+    <link th:href="@{/css/styles.css}" rel="stylesheet" >
 </head>
-<body>
-<h1>Hello World</h1>
-<a th:href="@{/sign-in}">sign in</a>
-<a th:href="@{/sign-up}">sign up</a>
-<a th:href="@{/inventory}">inventory</a>
+<body class="container">
+<div>
+    <h1><u>ROUGHNECK</u></h1>
+    <h2>Art Shop</h2>
+    <p class="subtitle">  Art from Our Creative Collective </p>
+
+    <div class="buttons">
+        <a th:href="@{/inventory}"><button class="btn-dark">Browse Inventory</button></a>
+        <a th:href="@{/sign-in}"><button class="btn-gold">Login</button></a>
+    </div>
+
+    <p class="signup-text">Don't have an account ?</p>
+    <a th:href="@{/sign-up}"><button class="signup-btn">Sign Up</button></a>
+</div>
 </body>
 </html>

@@ -1,0 +1,113 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Georgia", serif;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+
+}
+
+.container {
+    backdrop-filter: brightness(0.75);
+    padding: 20px;
+}
+
+h1 {
+    font-size: 60px;
+    margin: 0;
+    letter-spacing: 2px;
+    color: #d4af37;
+    font-family: "Source Code Pro", serif;
+}
+
+h2 {
+    font-size: 42px;
+    margin-top: 10px;
+    font-family: "Brush Script MT", "Lucida Handwriting", serif;
+}
+
+.subtitle {
+    margin-top: 10px;
+    font-size: 20px;
+}
+
+.buttons {
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+.btn {
+    padding: 18px 40px;
+    font-size: 24px;
+    border: 3px solid #d4af37;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: 0.3s;
+}
+
+/* Black button */
+.btn-dark {
+    margin-top: 10px;
+    display: inline-block;
+    padding: 10px 30px;
+    font-size: 20px;
+    border: 2px solid #d4af37;
+    color: #d4af37;
+    cursor: pointer;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 6px;
+    transition: 0.3s;
+}
+
+.btn-dark:hover {
+    background-color: #d4af37;
+    color: black;
+}
+
+/* Gold button */
+.btn-gold {
+    background-color: #d4af37;
+    color: white;
+    border: 2px solid white;
+    margin-top: 10px;
+    display: inline-block;
+    padding: 10px 30px;
+    font-size: 20px;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: 0.3s;
+}
+
+.btn-gold:hover {
+    background-color: white;
+    color: #d4af37;
+}
+
+.signup-text {
+    margin-top: 45px;
+    font-size: 18px;
+}
+
+.signup-btn {
+    margin-top: 10px;
+    display: inline-block;
+    padding: 10px 30px;
+    font-size: 20px;
+    border: 2px solid #d4af37;
+    color: #d4af37;
+    cursor: pointer;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 6px;
+    transition: 0.3s;
+}
+
+.signup-btn:hover {
+    background-color: #d4af37;
+    color: black;
+}
