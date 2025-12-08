@@ -1,41 +1,60 @@
 package artstore.controller.web;
 
-
+import artstore.repository.ArtPieceRepository;
+import artstore.repository.OrderRepository;
+import artstore.repository.UserRepository;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
-import java.util.Base64;
 
 @Controller
-public class AdminPageController{
+public class AdminPageController {
 
-    @GetMapping("/admin-page")
-    public String adminPage() {
-        return "admin-page";
+    private final UserRepository userRepository;
+    private final ArtPieceRepository artPieceRepository;
+    private final OrderRepository orderRepository;
+
+    // Inject repositories so admin can see users, art, orders
+    public AdminPageController(UserRepository userRepository,
+                               ArtPieceRepository artPieceRepository,
+                               OrderRepository orderRepository) {
+        this.userRepository = userRepository;
+        this.artPieceRepository = artPieceRepository;
+        this.orderRepository = orderRepository;
     }
-    @PostMapping("/admin-page")
-    public String handleFileUpload(@RequestParam("file") MultipartFile file, Model model) {
-        if (!file.isEmpty()) {
-            // Convert file to Base64 to embed directly in HTML
-            String base64Image = null;
-            try {
-                base64Image = Base64.getEncoder().encodeToString(file.getBytes());
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
 
-            //Variable right here can be saved to the db and loaded by thymeleaf
-            String dataUrl = "data:" + file.getContentType() + ";base64," + base64Image;
-            model.addAttribute("imageUrl", dataUrl);
+    // GET /admin
+    @GetMapping("/admin")
+    public String showAdminPage(HttpSession session, Model model) {
+        // 1) Check if someone is logged in
+        Object userId = session.getAttribute("userId");
+        Object role = session.getAttribute("userRole");
+
+        if (userId == null || role == null) {
+            // Not logged in at all → send to sign-in
+            return "redirect:/sign-in";
         }
 
-        return "admin-page";
+        // 2) Check if user is ADMIN
+        String roleStr = role.toString();
+        if (!"ADMIN".equalsIgnoreCase(roleStr)) {
+            // Logged in but not admin → send them to home (or 403 page)
+            return "redirect:/";
+        }
+
+        // 3) At this point, user is ADMIN. Load data for dashboard.
+
+        // Example: load all art pieces
+        model.addAttribute("artPieces", artPieceRepository.findAll());
+
+        // Example: load all orders
+        model.addAttribute("orders", orderRepository.findAll());
+
+        // Example: load all users
+        model.addAttribute("users", userRepository.findAll());
+
+        // 4) Return the admin template (admin.html)
+        return "admin";
     }
-
 }
-

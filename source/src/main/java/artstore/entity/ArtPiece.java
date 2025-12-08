@@ -15,8 +15,7 @@ public class ArtPiece {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long productId;
-
+    private int productId;
     private String title;
     private String description;
     private BigDecimal price;
@@ -27,11 +26,11 @@ public class ArtPiece {
     public ArtPiece() {
     }
 
-    public Long getProductId() {
+    public int getProductId() {
         return productId;
     }
 
-    public void setProductId(Long productId) {
+    public void setProductId(int productId) {
         this.productId = productId;
     }
 

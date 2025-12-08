@@ -1,30 +1,56 @@
 package artstore.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "User")
+@Table(name = "users") // adjust if your table name is different
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
+    // NEW: username column
+    @Column(nullable = false, unique = true)
+    private String username;
+
     private String firstName;
     private String lastName;
+
+    @Column(nullable = false, unique = true)
     private String email;
+
+    @Column(nullable = false)
     private String passwordHash;
-    private String role;
+
+    @Column(nullable = false)
+    private String role; // "USER" or "ADMIN"
+
+    @Column(nullable = false)
     private LocalDateTime createdAt;
+
+    // ===== Constructors =====
 
     public User() {
     }
+
+    // Keep old style constructor if other code uses it
+    public User(String firstName,
+                String lastName,
+                String email,
+                String passwordHash,
+                String role,
+                LocalDateTime createdAt) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.passwordHash = passwordHash;
+        this.role = role;
+        this.createdAt = createdAt;
+    }
+
+    // ===== Getters & Setters =====
 
     public Long getUserId() {
         return userId;
@@ -34,6 +60,16 @@ public class User {
         this.userId = userId;
     }
 
+    // username
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    // firstName
     public String getFirstName() {
         return firstName;
     }
@@ -42,6 +78,7 @@ public class User {
         this.firstName = firstName;
     }
 
+    // lastName
     public String getLastName() {
         return lastName;
     }
@@ -50,6 +87,7 @@ public class User {
         this.lastName = lastName;
     }
 
+    // email
     public String getEmail() {
         return email;
     }
@@ -58,6 +96,7 @@ public class User {
         this.email = email;
     }
 
+    // passwordHash
     public String getPasswordHash() {
         return passwordHash;
     }
@@ -66,6 +105,7 @@ public class User {
         this.passwordHash = passwordHash;
     }
 
+    // role
     public String getRole() {
         return role;
     }
@@ -74,6 +114,7 @@ public class User {
         this.role = role;
     }
 
+    // createdAt
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
