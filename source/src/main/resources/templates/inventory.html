@@ -1,10 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Inventory</title>
-</head>
-<body>
-<a th:href="@{/index}">home</a>
-</body>
-</html>
+<tr th:each="piece : ${artPieces}">
+    <td th:text="${piece.title}">Title</td>
+    <td th:text="${piece.description}">Description</td>
+    <td th:text="${piece.price}">$0.00</td>
+    <td>
+        <form th:action="@{'/shopping-cart/add/' + ${piece.productId}}" method="post">
+            <button type="submit">Add to cart</button>
+        </form>
+    </td>
+</tr>

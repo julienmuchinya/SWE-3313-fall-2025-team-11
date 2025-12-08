@@ -1,13 +1,6 @@
 package artstore.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 
@@ -19,14 +12,17 @@ public class CartItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderItemId;
 
+    // many items in one order
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "orderId")
     private Order order;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "productId")
+    // 1 Product -> 0 or 1 OrderItem
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "productId", unique = true)
     private ArtPiece artPiece;
 
+    // kept for compatibility – but in your logic you always use quantity = 1
     private Integer quantity;
     private BigDecimal unitPrice;
 
@@ -36,7 +32,6 @@ public class CartItem {
     public Long getOrderItemId() {
         return orderItemId;
     }
-
     public void setOrderItemId(Long orderItemId) {
         this.orderItemId = orderItemId;
     }
@@ -44,7 +39,6 @@ public class CartItem {
     public Order getOrder() {
         return order;
     }
-
     public void setOrder(Order order) {
         this.order = order;
     }
@@ -52,7 +46,6 @@ public class CartItem {
     public ArtPiece getArtPiece() {
         return artPiece;
     }
-
     public void setArtPiece(ArtPiece artPiece) {
         this.artPiece = artPiece;
     }
@@ -60,7 +53,6 @@ public class CartItem {
     public Integer getQuantity() {
         return quantity;
     }
-
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
@@ -68,7 +60,6 @@ public class CartItem {
     public BigDecimal getUnitPrice() {
         return unitPrice;
     }
-
     public void setUnitPrice(BigDecimal unitPrice) {
         this.unitPrice = unitPrice;
     }

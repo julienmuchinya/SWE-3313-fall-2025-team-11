@@ -1,93 +1,92 @@
 package artstore.entity;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
-
+import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "OrderTable")   // avoid SQL keyword "Order"
+@Table(name = "orders") // avoid SQL keyword "order"
 public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long orderId;
+    private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userId")
+    // ============================
+    // USER WHO PLACED THE ORDER
+    // ============================
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private User user;
 
-    private LocalDateTime orderDate;
-    private String status;
+    // ============================
+    // ORDER META
+    // ============================
+    @Column(nullable = false)
+    private LocalDateTime createdAt;
+
+    @Column(nullable = false)
     private BigDecimal totalAmount;
 
+    // ============================
+    // PAYMENT INFO (SIMPLE MODEL)
+    // ============================
+    @Column(nullable = false)
+    private String paymentMethod;   // "CARD", "CASH", etc.
+
+    @Column(nullable = false)
+    private String paymentStatus;   // "PENDING", "PAID"
+
+    private LocalDateTime paymentDate;
+
+    @Column(nullable = false)
+    private String status;          // "NEW", "COMPLETED"
+
+    // ============================
+    // ORDER ITEMS (CartItem)
+    // ============================
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CartItem> items = new ArrayList<>();
 
-    public Order() {
-    }
+    // ============================
+    // GETTERS + SETTERS
+    // ============================
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public Long getOrderId() {
-        return orderId;
-    }
+    public User getUser() { return user; }
+    public void setUser(User user) { this.user = user; }
 
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
-    }
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 
-    public User getUser() {
-        return user;
-    }
+    public BigDecimal getTotalAmount() { return totalAmount; }
+    public void setTotalAmount(BigDecimal totalAmount) { this.totalAmount = totalAmount; }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
+    public String getPaymentMethod() { return paymentMethod; }
+    public void setPaymentMethod(String paymentMethod) { this.paymentMethod = paymentMethod; }
 
-    public LocalDateTime getOrderDate() {
-        return orderDate;
-    }
+    public String getPaymentStatus() { return paymentStatus; }
+    public void setPaymentStatus(String paymentStatus) { this.paymentStatus = paymentStatus; }
 
-    public void setOrderDate(LocalDateTime orderDate) {
-        this.orderDate = orderDate;
-    }
+    public LocalDateTime getPaymentDate() { return paymentDate; }
+    public void setPaymentDate(LocalDateTime paymentDate) { this.paymentDate = paymentDate; }
 
-    public String getStatus() {
-        return status;
-    }
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public BigDecimal getTotalAmount() {
-        return totalAmount;
-    }
-
-    public void setTotalAmount(BigDecimal totalAmount) {
-        this.totalAmount = totalAmount;
-    }
-
-    public List<CartItem> getItems() {
-        return items;
-    }
-
-    public void setItems(List<CartItem> items) {
-        this.items = items;
-    }
+    public List<CartItem> getItems() { return items; }
+    public void setItems(List<CartItem> items) { this.items = items; }
 
     public void addItem(CartItem item) {
         items.add(item);
         item.setOrder(this);
+    }
+
+    public void removeItem(CartItem item) {
+        items.remove(item);
+        item.setOrder(null);
     }
 }

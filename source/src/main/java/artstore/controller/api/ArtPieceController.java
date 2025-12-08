@@ -28,6 +28,6 @@ public class ArtPieceController {
     // GET /api/artpieces/{id}
     @GetMapping("/{id}")
     public ArtPiece getArtPieceById(@PathVariable Long id) {
-        return artPieceRepository.findById(id).orElse(null);
+        return artPieceRepository.findById(id.intValue()).orElse(null);
     }
 }
