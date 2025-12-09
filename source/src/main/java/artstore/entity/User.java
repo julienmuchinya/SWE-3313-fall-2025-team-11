@@ -1,15 +1,17 @@
 package artstore.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
+@Entity
+@Table(name = "users")
 @Getter
 @Setter
-@Entity
-@Table(name = "users")  // matches your DB table
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class User {
 
     @Id
@@ -34,15 +36,5 @@ public class User {
 
     @Column(nullable = false)
     private LocalDateTime createdAt;
-
-    // Lombok gives default no-args constructor automatically
-
-    @PrePersist
-    private void prePersist() {
-        this.createdAt = LocalDateTime.now();
-        if (this.role == null) {
-            this.role = "USER";   // default role for new accounts
-        }
-    }
 }
 

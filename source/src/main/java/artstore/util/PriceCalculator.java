@@ -5,22 +5,17 @@ import artstore.entity.Order;
 
 import java.math.BigDecimal;
 
-public class PriceCalculator {
+public final class PriceCalculator {
 
-    private PriceCalculator() {
-    }
+    private PriceCalculator() {}
 
     public static BigDecimal calculateTotal(Order order) {
-        BigDecimal total = BigDecimal.ZERO;
-
-        for (CartItem item : order.getItems()) {
-            if (item.getUnitPrice() != null && item.getQuantity() != null) {
-                BigDecimal line = item.getUnitPrice()
-                        .multiply(BigDecimal.valueOf(item.getQuantity()));
-                total = total.add(line);
-            }
+        if (order == null || order.getItems() == null) {
+            return BigDecimal.ZERO;
         }
 
-        return total;
+        return order.getItems().stream()
+                .map(item -> item.getArtPiece().getPrice())
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 }
