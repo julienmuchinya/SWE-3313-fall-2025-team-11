@@ -33,7 +33,7 @@ public class ShoppingCartController {
 
         List<Long> productIds = SessionUtil.getCartProductIds(session);
         System.out.println("productIds = " + productIds);
-        List<CartItem> items = cartItemRepository.findAllbyOrderItemId(productIds);
+        List<CartItem> items = cartItemRepository.findAll();
         System.out.println("items = " + items);
 
         BigDecimal total =  BigDecimal.ZERO;
