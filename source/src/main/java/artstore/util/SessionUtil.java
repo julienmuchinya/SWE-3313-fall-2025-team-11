@@ -12,9 +12,9 @@ public class SessionUtil {
     // ... your existing methods stay
 
     // Get or create cart list (productId list)
-    public static List<Integer> getCartProductIds(HttpSession session) {
+    public static List<Long> getCartProductIds(HttpSession session) {
         @SuppressWarnings("unchecked")
-        List<Integer> cart = (List<Integer>) session.getAttribute(CART_KEY);
+        List<Long> cart = (List<Long>) session.getAttribute(CART_KEY);
         if (cart == null) {
             cart = new ArrayList<>();
             session.setAttribute(CART_KEY, cart);
@@ -23,21 +23,16 @@ public class SessionUtil {
     }
 
     // Add product to cart (unique items only)
-    public static void addProductToCart(HttpSession session, int productId) {
-        List<Integer> cart = getCartProductIds(session);
+    public static void addProductToCart(HttpSession session, long productId) {
+        List<Long> cart = getCartProductIds(session);
         if (!cart.contains(productId)) {  // don’t add twice
             cart.add(productId);
         }
     }
 
     // Remove product from cart
-    public static void removeProductFromCart(HttpSession session, int productId) {
-        List<Integer> cart = getCartProductIds(session);
+    public static void removeProductFromCart(HttpSession session, long productId) {
+        List<Long> cart = getCartProductIds(session);
         cart.removeIf(id -> id == productId);
-    }
-
-    // Clear cart
-    public static void clearCart(HttpSession session) {
-        session.removeAttribute(CART_KEY);
     }
 }

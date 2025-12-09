@@ -10,7 +10,8 @@ public class CartItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long orderItemId;
+    @Column(name = "OrderItemId")
+    private Long id;
 
     // many items in one order
     @ManyToOne(fetch = FetchType.LAZY)
@@ -29,11 +30,12 @@ public class CartItem {
     public CartItem() {
     }
 
-    public Long getOrderItemId() {
-        return orderItemId;
+
+    public Long getId() {
+        return id;
     }
-    public void setOrderItemId(Long orderItemId) {
-        this.orderItemId = orderItemId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Order getOrder() {

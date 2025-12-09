@@ -13,7 +13,7 @@
 
         <div th:each="cartItem : ${cartItems}"
              class="cart-entry"
-             th:attr="data-id=${cartItem.artPiece.id}">
+             th:attr="data-id=${cartItem.id}">
 
             <h2 class="title" th:text="${cartItem.artPiece.title}"></h2>
 
@@ -48,10 +48,6 @@
                     if (data.success) {
                         // Remove item from page
                         entry.remove();
-
-                        // Update subtotal & count
-                        document.getElementById("subtotal").textContent = "$" + data.subtotal;
-                        document.getElementById("itemCount").textContent = data.count;
                     }
                 });
             });

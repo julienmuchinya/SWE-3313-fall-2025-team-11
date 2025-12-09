@@ -20,17 +20,48 @@
 </div>
 
 <div class="product-grid">
-    <div th:each="artPiece : ${artPieces}" class="product-card">
+    <div th:each="artPiece : ${artPieces}" class="product-card" th:attr="data-id=${artPiece.productId}">
         <img th:src="@{${artPiece.imageUrl}}" alt="art image">
         <div class="product-info">
             <h3 th:text="${artPiece.title}"></h3>
             <p>$<span th:text="${artPiece.price}"></span></p>
             <p>Artist: <span> add to repo</span></p>
             <p th:text="${artPiece.description}"></p>
-            <button>Add to Cart</button>
+            <button class="add-btn">Add to Cart</button>
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const addToCartButtons = document.querySelectorAll(".add-btn");
+
+        addToCartButtons.forEach(btn => {
+            btn.addEventListener("click", async (e) => {
+                const entry = e.target.closest(".product-card");
+                const productId = entry.dataset.id;
+
+                try {
+                    const response = await fetch(`/cart/add/${productId}`, {
+                        method: "POST"
+                    });
+
+                    const data = await response.json();
+
+                    if (data.success) {
+                        // Optional: show feedback, e.g., update cart count
+                        alert("Item added to cart!");
+                    } else {
+                        alert("Failed to add item to cart.");
+                    }
+                } catch (error) {
+                    console.error("Error adding item to cart:", error);
+                }
+            });
+        });
+    });
+</script>
+
 
 <div class="pagination">
     <span th:each="i : ${#numbers.sequence(1, pageCount)}">

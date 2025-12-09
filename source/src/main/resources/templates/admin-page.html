@@ -1,27 +1,3 @@
-<!--<!DOCTYPE html>-->
-<!--<html lang="en" xmlns:th="http://www.thymeleaf.org">-->
-<!--<head>-->
-<!--    <meta charset="UTF-8">-->
-<!--    <title>Admin Page</title>-->
-<!--</head>-->
-<!--<body>-->
-<!--<h1>Admin Page</h1>-->
-<!--<a th:href="@{/index}">home</a>-->
-<!--<h1>Upload an Image</h1>-->
-<!--<form th:action="@{/admin-page}" method="post" enctype="multipart/form-data">-->
-<!--    <input type="file" name="file" accept="image/*"/>-->
-<!--    <button type="submit">Upload</button>-->
-<!--</form>-->
-
-<!--<div th:if="${imageUrl}">-->
-<!--    <h2>Uploaded Image:</h2>-->
-<!--    <img th:src="@{${imageUrl}}" alt="Uploaded Image" width="300"/>-->
-<!--</div>-->
-
-<!--</body>-->
-<!--</html>-->
-
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
@@ -53,38 +29,23 @@
                 </tr>
                 </thead>
                 <tbody>
-                <!--                <tr th:each="o : ${orders}">-->
-                <!--                    <td th:text="${o.orderId}">Sale#</td>-->
-                <!--                    <td>-->
-                <!--                        <span th:each="i : ${o.items}"-->
-                <!--                        -->
-                <!--                        -->
-                <!--                        -->
-                <!--                        >-->
-                <!--                        </span>-->
-                <!--                    </td>-->
-                <!--                    <td th:text="${o.orderDate}">2025/11/04</td>-->
-                <!--                    <td th:text="${o.totalAmount}">$0.00</td>-->
-                <!--                </tr>-->
-                <tr>
-                    <td>1234567890</td>
-                    <td>Pisces, Cyber Warrior</td>
-                    <td>2025/11/04</td>
-                    <td>$311.89</td>
-                </tr>
-                <tr>
-                    <td>11111111111</td>
-                    <td>Dog in Space</td>
-                    <td>2025/11/03</td>
-                    <td>$84.99</td>
-                </tr>
+                                <tr th:each="order : ${orders}">
+                                    <td th:text="${order.id}">Sale#</td>
+                                    <td th:each="item : ${order.items}">
+                                        <span th:text="${item.title}">
+                                        </span>
+                                    </td>
+                                    <td th:text="${o.orderDate}">2025/11/04</td>
+                                    <td th:text="${o.totalAmount}">$0.00</td>
+                                </tr>
+
                 </tbody>
             </table>
 
             <div class="sales-footer">
                 <!--                <div>Total Sales: <span th:text="${#lists.size(orders)}">#</span></div>-->
                 <!--                <div class="grand">Grand Total: $<span th:text="${grandTotal}">0.00</span></div>-->
-                <div>Total Sales: 2</div>
+                <div>Total Sales: </div>
                 <div class="grand">Grand Total: $396.88</div>
             </div>
 

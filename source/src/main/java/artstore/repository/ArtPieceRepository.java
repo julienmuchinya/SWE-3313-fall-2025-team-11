@@ -13,7 +13,7 @@ public interface ArtPieceRepository extends JpaRepository<ArtPiece, Integer> {
     List<ArtPiece> findByIsActiveTrueAndOrderItemIsNull();
 
     // add-to-cart + checkout: still active and not sold
-    Optional<ArtPiece> findByProductIdAndIsActiveTrueAndOrderItemIsNull(int productId);
+    Optional<ArtPiece> findByProductIdAndIsActiveTrueAndOrderItemIsNull(Long productId);
 
     // search by title
     List<ArtPiece> findByIsActiveTrueAndOrderItemIsNullAndTitleContainingIgnoreCase(String title);

@@ -15,9 +15,10 @@ public class ArtPiece {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int productId;
+    private Long productId;
 
     private String title;
+    private String artist;
     private String description;
     private BigDecimal price;
     private String imageUrl;
