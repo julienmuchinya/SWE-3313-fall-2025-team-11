@@ -1,14 +1,22 @@
-package artstore.controller;
+package artstore.controller.web;
 
 import artstore.entity.ArtPiece;
 import artstore.repository.ArtPieceRepository;
+import artstore.util.SessionUtil;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.math.BigDecimal;
+import java.util.Comparator;
 import java.util.List;
+
+import static java.lang.Math.ceil;
+import static java.lang.Math.min;
 
 @Controller
 public class InventoryController {
@@ -20,42 +28,33 @@ public class InventoryController {
     }
 
     @GetMapping("/inventory")
-    public String showInventory(
-            @RequestParam(required = false) String q,
-            @RequestParam(required = false) BigDecimal minPrice,
-            @RequestParam(required = false) BigDecimal maxPrice,
-            Model model
-    ) {
+    public String inventory(Model model, @RequestParam(defaultValue = "1") int page) {
+        List<ArtPiece> unsortedArtPieces = artPieceRepository.findByIsActiveTrueAndOrderItemIsNull();
+        List<ArtPiece> artPieces = unsortedArtPieces.stream().sorted(Comparator.comparing(ArtPiece::getPrice)).toList().reversed();
+        int artPieceSize = artPieces.size();
+        int PAGE_SIZE = 9;
 
-        List<ArtPiece> pieces;
+        int pageCount = (int) ceil((double) artPieceSize / PAGE_SIZE);
 
-        boolean hasSearch = q != null && !q.isBlank();
-        boolean hasMin = minPrice != null;
-        boolean hasMax = maxPrice != null;
 
-        if (!hasSearch && !hasMin && !hasMax) {
-            pieces = artPieceRepository.findByIsActiveTrueAndOrderItemIsNull();
-        } else if (hasSearch && !hasMin && !hasMax) {
-            pieces = artPieceRepository
-                    .findByIsActiveTrueAndOrderItemIsNullAndTitleContainingIgnoreCase(q);
-        } else if (!hasSearch && hasMin && hasMax) {
-            pieces = artPieceRepository
-                    .findByIsActiveTrueAndOrderItemIsNullAndPriceBetween(minPrice, maxPrice);
-        } else if (hasSearch && hasMin && hasMax) {
-            pieces = artPieceRepository
-                    .findByIsActiveTrueAndOrderItemIsNullAndTitleContainingIgnoreCaseAndPriceBetween(
-                            q, minPrice, maxPrice
-                    );
-        } else {
-            // fallback: just default inventory if combination not handled
-            pieces = artPieceRepository.findByIsActiveTrueAndOrderItemIsNull();
-        }
+        int start = (page - 1) * PAGE_SIZE;
+        int end = min(start + PAGE_SIZE, artPieceSize);
 
-        model.addAttribute("artPieces", pieces);
-        model.addAttribute("q", q);
-        model.addAttribute("minPrice", minPrice);
-        model.addAttribute("maxPrice", maxPrice);
+        List<ArtPiece> artPiecesPage = artPieces.subList(start, end);
+
+        model.addAttribute("artPieces", unsortedArtPieces);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("pageCount", pageCount);
 
         return "inventory";
+    }
+
+    @PostMapping("/add/{productId}")
+    public String addToCart(@PathVariable int productId, HttpSession session) {
+        // only add if active + not sold
+        artPieceRepository.findByProductIdAndIsActiveTrueAndOrderItemIsNull(productId)
+                .ifPresent(p -> SessionUtil.addProductToCart(session, productId));
+
+        return "redirect:/shopping-cart";
     }
 }

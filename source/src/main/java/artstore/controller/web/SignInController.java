@@ -15,9 +15,9 @@ public class SignInController {
 
     private static final Logger log = LoggerFactory.getLogger(SignInController.class);
 
-    private final AuthController authController;
+    private final artstore.controller.web.AuthController authController;
 
-    public SignInController(AuthController authController) {
+    public SignInController(artstore.controller.web.AuthController authController) {
         this.authController = authController;
     }
 

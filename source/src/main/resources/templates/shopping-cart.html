@@ -1,51 +1,79 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Your Cart</title>
+    <title>Cart</title>
+    <link rel="stylesheet" th:href="@{/css/shopping-cart.css}">
 </head>
+
 <body>
+<div class="cart-container">
 
-<h1>Your Shopping Cart</h1>
+    <!-- MAIN CART COLUMN -->
+    <div class="cart-list">
 
-<div th:if="${#lists.isEmpty(items)}">
-    <p>Your cart is empty.</p>
-    <a th:href="@{/inventory}">Back to Inventory</a>
-</div>
+        <div th:each="cartItem : ${cartItems}"
+             class="cart-entry"
+             th:attr="data-id=${cartItem.artPiece.id}">
 
-<div th:if="${!#lists.isEmpty(items)}">
-    <table border="1">
-        <thead>
-        <tr>
-            <th>Art Title</th>
-            <th>Price</th>
-            <th>Remove</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="item : ${items}">
-            <td th:text="${item.title}">Title</td>
-            <td th:text="${item.price}">$0.00</td>
-            <td>
-                <form th:action="@{'/shopping-cart/remove/' + ${item.productId}}" method="post">
-                    <button type="submit">Remove</button>
-                </form>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+            <h2 class="title" th:text="${cartItem.artPiece.title}"></h2>
 
-    <p>Total: <span th:text="${total}">$0.00</span></p>
+            <div class="entry-body">
+                <div class="text-block">
+                    <div class="price" th:text="${'$' + cartItem.artPiece.price}"></div>
+                    <div class="artist" th:text="'Artist: '">add to repo</div>
+                    <div class="tags" th:text="${cartItem.artPiece.description}"></div>
+                    <button class="remove-btn">Remove</button>
+                </div>
+                <img class="preview-img"
+                     th:src="@{${cartItem.artPiece.imageUrl}}"
+                     alt="Artwork">
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const removeButtons = document.querySelectorAll(".remove-btn");
 
-    <!-- Checkout will be wired next -->
-    <form th:action="@{/pay-now}" method="post">
-        <button type="submit">Proceed to Payment</button>
-    </form>
+            removeButtons.forEach(btn => {
+                btn.addEventListener("click", async (e) => {
+                    const entry = e.target.closest(".cart-entry");
+                    const id = entry.dataset.id;
 
-    <form th:action="@{/shopping-cart/clear}" method="post">
-        <button type="submit">Clear Cart</button>
-    </form>
+                    const response = await fetch(`/cart/remove/${id}`, {
+                        method: "DELETE"
+                    });
 
-    <a th:href="@{/inventory}">Continue Shopping</a>
+                    const data = await response.json();
+
+                    if (data.success) {
+                        // Remove item from page
+                        entry.remove();
+
+                        // Update subtotal & count
+                        document.getElementById("subtotal").textContent = "$" + data.subtotal;
+                        document.getElementById("itemCount").textContent = data.count;
+                    }
+                });
+            });
+        });
+
+    </script>
+
+
+    <!-- SUMMARY COLUMN -->
+    <div class="summary">
+        <div class="row">
+            <span>Items</span>
+            <span id="itemCount" th:text="${cartItemCount}"></span>
+        </div>
+
+        <div class="row">
+            <span>Subtotal</span>
+            <span id="subtotal" th:text="'$' + ${subtotal}"></span>
+        </div>
+
+        <a th:href="@{/checkout}" class="checkout-btn">Proceed to Checkout</a>
+    </div>
 </div>
 
 </body>

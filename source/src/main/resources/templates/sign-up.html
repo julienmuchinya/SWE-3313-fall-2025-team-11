@@ -7,6 +7,8 @@
 </head>
 <body>
 
+<div class="bg-layer"></div>
+
 <a href="/" class="home-btn">Home</a>
 <a th:href="@{/sign-in}" class="second-btn">Sign In</a>
 
@@ -21,7 +23,7 @@
 
         <div th:if="${error}" class="error-msg" th:text="${error}"></div>
 
-        <button type="submit" class="sign-in-btn">Sign In</button>
+        <button type="submit" class="sign-in-btn">Sign Up</button>
     </form>
 </div>
 

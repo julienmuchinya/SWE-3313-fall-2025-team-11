@@ -1,22 +1,175 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en" xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Admin Page</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--<h1>Admin Page</h1>-->
+<!--<a th:href="@{/index}">home</a>-->
+<!--<h1>Upload an Image</h1>-->
+<!--<form th:action="@{/admin-page}" method="post" enctype="multipart/form-data">-->
+<!--    <input type="file" name="file" accept="image/*"/>-->
+<!--    <button type="submit">Upload</button>-->
+<!--</form>-->
+
+<!--<div th:if="${imageUrl}">-->
+<!--    <h2>Uploaded Image:</h2>-->
+<!--    <img th:src="@{${imageUrl}}" alt="Uploaded Image" width="300"/>-->
+<!--</div>-->
+
+<!--</body>-->
+<!--</html>-->
+
+
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Admin Page</title>
+    <title>RAS Admin Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/admin-page.css}">
 </head>
 <body>
-<h1>Admin Page</h1>
-<a th:href="@{/index}">home</a>
-<h1>Upload an Image</h1>
-<form th:action="@{/admin-page}" method="post" enctype="multipart/form-data">
-    <input type="file" name="file" accept="image/*"/>
-    <button type="submit">Upload</button>
-</form>
-
-<div th:if="${imageUrl}">
-    <h2>Uploaded Image:</h2>
-    <img th:src="@{${imageUrl}}" alt="Uploaded Image" width="300"/>
+<div class="topbar">
+    <div class="logo">RAS</div>
 </div>
 
+<div class="side-buttons">
+    <a class="side-btn" th:href="@{/}">Home</a>
+    <a class="side-btn" th:href="@{/inventory}">Inventory</a>
+</div>
+
+<div class="page">
+    <div class="left">
+        <h2>Sales Report</h2>
+        <div class="panel sales-panel">
+            <table class="sales-table">
+                <thead>
+                <tr>
+                    <th>Sale#</th>
+                    <th>Item Name</th>
+                    <th>Transaction Date</th>
+                    <th>Sale Value: $</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!--                <tr th:each="o : ${orders}">-->
+                <!--                    <td th:text="${o.orderId}">Sale#</td>-->
+                <!--                    <td>-->
+                <!--                        <span th:each="i : ${o.items}"-->
+                <!--                        -->
+                <!--                        -->
+                <!--                        -->
+                <!--                        >-->
+                <!--                        </span>-->
+                <!--                    </td>-->
+                <!--                    <td th:text="${o.orderDate}">2025/11/04</td>-->
+                <!--                    <td th:text="${o.totalAmount}">$0.00</td>-->
+                <!--                </tr>-->
+                <tr>
+                    <td>1234567890</td>
+                    <td>Pisces, Cyber Warrior</td>
+                    <td>2025/11/04</td>
+                    <td>$311.89</td>
+                </tr>
+                <tr>
+                    <td>11111111111</td>
+                    <td>Dog in Space</td>
+                    <td>2025/11/03</td>
+                    <td>$84.99</td>
+                </tr>
+                </tbody>
+            </table>
+
+            <div class="sales-footer">
+                <!--                <div>Total Sales: <span th:text="${#lists.size(orders)}">#</span></div>-->
+                <!--                <div class="grand">Grand Total: $<span th:text="${grandTotal}">0.00</span></div>-->
+                <div>Total Sales: 2</div>
+                <div class="grand">Grand Total: $396.88</div>
+            </div>
+
+            <div class="sales-actions">
+                <!--                <form th:action="@{/admin-page}" method="get"><button type="submit" class="small-btn">Refresh</button></form>-->
+                <button class="small-btn">Refresh</button>
+                <button class="small-btn">Export to CSV</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="right">
+        <h3>Add New Inventory Item</h3>
+        <div class="panel">
+            <form id="inventory-add" th:action="@{/inventory/add}" th:object="${inventoryItemForm}" method="post" enctype="multipart/form-data">
+                <div class="form-row">
+                    <label>Name:</label>
+                    <input type="text" th:field="*{title}">
+                </div>
+                <div class="form-row">
+                    <label>Description:</label>
+                    <textarea th:field="*{description}"></textarea>
+                </div>
+                <div class="form-row">
+                    <label>Price:</label>
+                    <input type="number" step="0.01" th:field="*{price}">
+                </div>
+                <div class="form-row">
+                    <label>Image:</label>
+                    <input type="file" name="image" th:field="*{image}">
+                </div>
+                <div id="add-result"></div>
+                <div style="text-align:right;">
+                    <button type="submit" class="small-btn">Add to Inventory</button>
+                </div>
+            </form>
+        </div>
+    <script>
+        document.getElementById("inventory-add").addEventListener("submit", function(event) {
+            event.preventDefault(); // Stop page reload
+
+            const formData = new FormData(this);
+
+            fetch('/inventory/add', { method: 'POST', body: formData })
+                .then(response => response.text())
+                .then(data => document.getElementById("add-result").innerHTML = data)
+                .catch(error => console.error(error));
+        });
+    </script>
+
+
+        <hr class="divider">
+
+        <h3>Promote New Admin</h3>
+        <div class="panel small">
+            <form id="promote-admin" th:action="@{/promote/admin}" th:object="${promoteAdminForm}" method="post">
+                <div class="form-row">
+                    <label>Username:</label>
+                    <input type="text" th:field="*{username}">
+                </div>
+                <div class="form-row">
+                    <label>Confirm Username:</label>
+                    <input type="text" th:field="*{confirmUsername}">
+                </div>
+                <div id="promote-result"></div>
+                <div style="text-align:right;">
+                    <button type="submit" class="small-btn">Promote</button>
+                </div>
+            </form>
+        </div>
+
+
+        <script>
+            document.getElementById("promote-admin").addEventListener("submit", function(event) {
+                event.preventDefault(); // Stop page reload
+
+                const formData = new FormData(this);
+
+                fetch('/promote/admin', { method: 'POST', body: formData })
+                    .then(response => response.text())
+                    .then(data => document.getElementById("promote-result").innerHTML = data)
+                    .catch(error => console.error(error));
+            });
+        </script>
+    </div>
+</div>
 </body>
 </html>

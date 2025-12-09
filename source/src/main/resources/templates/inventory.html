@@ -1,10 +1,43 @@
-<tr th:each="piece : ${artPieces}">
-    <td th:text="${piece.title}">Title</td>
-    <td th:text="${piece.description}">Description</td>
-    <td th:text="${piece.price}">$0.00</td>
-    <td>
-        <form th:action="@{'/shopping-cart/add/' + ${piece.productId}}" method="post">
-            <button type="submit">Add to cart</button>
-        </form>
-    </td>
-</tr>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>RAS Shop</title>
+    <link rel="stylesheet" th:href="@{/css/inventory.css}">
+</head>
+<body>
+<header>
+    <div class="navbar">
+        <span class="logo">RAS</span>
+        <button class="nav-btn">Home</button>
+        <button class="nav-btn admin">Admin</button>
+        <span class="cart-icon">🛒</span>
+    </div>
+</header>
+
+<div class="search-bar">
+    <input type="text" placeholder="Search disabled for ver 1" disabled>
+</div>
+
+<div class="product-grid">
+    <div th:each="artPiece : ${artPieces}" class="product-card">
+        <img th:src="@{${artPiece.imageUrl}}" alt="art image">
+        <div class="product-info">
+            <h3 th:text="${artPiece.title}"></h3>
+            <p>$<span th:text="${artPiece.price}"></span></p>
+            <p>Artist: <span> add to repo</span></p>
+            <p th:text="${artPiece.description}"></p>
+            <button>Add to Cart</button>
+        </div>
+    </div>
+</div>
+
+<div class="pagination">
+    <span th:each="i : ${#numbers.sequence(1, pageCount)}">
+        <a th:href="@{/shop(page=${i})}">
+            <button th:text="${i}" th:classappend="${i == currentPage}? 'active' : ''"></button>
+        </a>
+    </span>
+</div>
+</body>
+</html>

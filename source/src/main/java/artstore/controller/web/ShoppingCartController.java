@@ -19,6 +19,7 @@ public class ShoppingCartController {
 
     public ShoppingCartController(ArtPieceRepository artPieceRepository) {
         this.artPieceRepository = artPieceRepository;
+
     }
 
     // VIEW CART
@@ -35,32 +36,18 @@ public class ShoppingCartController {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         model.addAttribute("items", items);
-        model.addAttribute("total", total);
+        model.addAttribute("subtotal", total);
 
         return "shopping-cart";   // shopping-cart.html
     }
 
-    // ADD ITEM TO CART
-    @PostMapping("/add/{productId}")
-    public String addToCart(@PathVariable int productId, HttpSession session) {
-        // only add if active + not sold
-        artPieceRepository.findByProductIdAndIsActiveTrueAndOrderItemIsNull(productId)
-                .ifPresent(p -> SessionUtil.addProductToCart(session, productId));
+    @DeleteMapping("/cart/remove/{id}")
+    @ResponseBody
+    public String removeFromCart(Model model, @PathVariable int id, HttpSession session) {
+        SessionUtil.removeProductFromCart(session, id);
 
-        return "redirect:/shopping-cart";
-    }
 
-    // REMOVE ITEM FROM CART
-    @PostMapping("/remove/{productId}")
-    public String removeFromCart(@PathVariable int productId, HttpSession session) {
-        SessionUtil.removeProductFromCart(session, productId);
-        return "redirect:/shopping-cart";
-    }
 
-    // CLEAR CART
-    @PostMapping("/clear")
-    public String clearCart(HttpSession session) {
-        SessionUtil.clearCart(session);
-        return "redirect:/shopping-cart";
+        return "success";
     }
 }
