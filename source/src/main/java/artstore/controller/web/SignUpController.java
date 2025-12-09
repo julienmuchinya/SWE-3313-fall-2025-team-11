@@ -24,8 +24,7 @@ public class SignUpController {
     // Show the sign-up page (GET /sign-up)
     @GetMapping("/sign-up")
     public String showSignUpForm() {
-        // This should match your Thymeleaf template: sign-up.html
-        return "sign-up";
+        return "sign-up";  // sign-up.html
     }
 
     // Handle the sign-up form submission (POST /sign-up)
@@ -82,5 +81,6 @@ public class SignUpController {
 
         // 8) Redirect to login page after successful sign-up
         return "redirect:/sign-in";
+        // or: return "redirect:/inventory"; if you want to send them to the art listing instead
     }
 }
