@@ -6,32 +6,39 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 @Entity
-@Table(name = "orders") // avoid SQL keyword "order"
+@Table(name = "Order") // Changed to "Order" for ERD consistency
 public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id; // Kept 'id' as per your provided code, though 'orderId' is recommended
 
     // ============================
     // USER WHO PLACED THE ORDER
     // ============================
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id") // Kept 'user_id' as per your provided code, though 'UserId' is recommended
     private User user;
 
     // ============================
     // ORDER META
     // ============================
     @Column(nullable = false)
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt; // Kept 'createdAt'
 
+    // Kept 'totalAmount'
     @Column(nullable = false)
     private BigDecimal totalAmount;
 
     // ============================
-    // PAYMENT INFO (SIMPLE MODEL)
+    // PAYMENT INFO (SIMPLE MODEL) - KEPT AS REQUESTED
     // ============================
     @Column(nullable = false)
     private String paymentMethod;   // "CARD", "CASH", etc.
@@ -44,6 +51,9 @@ public class Order {
     @Column(nullable = false)
     private String status;          // "NEW", "COMPLETED"
 
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Payment payment;
+
     // ============================
     // ORDER ITEMS (CartItem)
     // ============================
@@ -53,11 +63,13 @@ public class Order {
 
     @PrePersist
     public void prePersist() {
-        createdAt = LocalDateTime.now();
+        if (this.createdAt == null) {
+            this.createdAt = LocalDateTime.now();
+        }
     }
 
     // ============================
-    // GETTERS + SETTERS
+    // GETTERS + SETTERS (KEPT AS REQUESTED)
     // ============================
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
