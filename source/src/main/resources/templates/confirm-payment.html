@@ -1,10 +1,69 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Payment Confirmation</title>
+    <link rel="stylesheet" th:href="@{/css/confirm-payment.css}">
 </head>
+
 <body>
-<a th:href="@{/index}">home</a>
+
+<div class="header">
+    <a href="/" class="home-btn">Home</a>
+    RAS
+</div>
+
+<div class="container">
+
+    <div class="confirmation-box">
+        <img class="check-icon" th:src="@{/images/check.png}" alt="Success">
+
+        <h2>Payment Confirmation</h2>
+
+        <div class="details">
+
+            <div class="row">
+                <span>Number of Items:</span>
+                <span th:text="${order.items.size()}">2</span>
+            </div>
+
+            <div class="row">
+                <span>Subtotal:</span>
+                <span>$<span th:text="${order.payment.subtotal}">276.31</span></span>
+            </div>
+
+            <div class="row">
+                <span>Discount:</span>
+            </div>
+
+            <div class="row">
+                <span>Shipping Fee:</span>
+                <span>$<span th:text="${order.payment.shippingFee}">19.00</span></span>
+            </div>
+
+            <div class="row">
+                <span>Sales Tax:</span>
+                <span>$<span th:text="${order.payment.salesTax}">16.58</span></span>
+            </div>
+
+            <br>
+
+            <div class="row total">
+                <span>Order Total:</span>
+                <span>$<span th:text="${order.totalAmount}">311.89</span></span>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="button-container">
+        <form th:action="@{/order/complete}" method="post">
+            <button class="complete-btn" type="submit">COMPLETE ORDER</button>
+        </form>
+    </div>
+
+</div>
+
 </body>
 </html>

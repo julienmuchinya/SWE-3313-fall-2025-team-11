@@ -29,8 +29,8 @@ public class Payment {
     private BigDecimal shippingFee;
     private String status;
 
-    @Column(columnDefinition = "DATETIME DEFAULT GETDATE()")
     private LocalDateTime paidAt;
+
 
     @PrePersist
     protected void prePersist() {
@@ -38,5 +38,4 @@ public class Payment {
             this.paidAt = LocalDateTime.now();
         }
     }
-
 }

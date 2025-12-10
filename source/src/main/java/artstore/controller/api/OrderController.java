@@ -8,12 +8,11 @@ import artstore.repository.ArtPieceRepository;
 import artstore.repository.OrderRepository;
 import artstore.repository.UserRepository;
 import artstore.util.PriceCalculator;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/orders")
@@ -31,91 +30,74 @@ public class OrderController {
         this.artPieceRepository = artPieceRepository;
     }
 
-    /**
-     * Create a new order for a user.
-     * Body: { "userId": 1, "artPieceIds": [1, 2, 3] }
-     */
+    // POST /api/orders
     @PostMapping
-    public ResponseEntity<Order> createOrder(@RequestBody CreateOrderRequest request) {
-
-        // 1) Find the user
-        if (request == null || request.userId() == null) {
-            return ResponseEntity.badRequest().build();
+    public Order createOrder(@RequestBody CreateOrderRequest request) {
+        // find user
+        User user = userRepository.findById(request.userId()).orElse(null);
+        if (user == null) {
+            return null;
         }
 
-        Optional<User> userOpt = userRepository.findById(request.userId());
-        if (userOpt.isEmpty()) {
-            return ResponseEntity.badRequest().build();
-        }
-        User user = userOpt.get();
+        Order order = new Order();
+        order.setUser(user);
+        order.setCreatedAt(LocalDateTime.now());
+        order.setStatus("PENDING");
+        order.setPaymentMethod("CARD");      // simple default
+        order.setPaymentStatus("PENDING");
 
-        // 2) Create a new Order (without total yet)
-        Order order = Order.builder()
-                .user(user)
-                .createdAt(LocalDateTime.now())
-                .status("NEW")
-                .paymentMethod("CARD")      // simple default
-                .paymentStatus("PENDING")
-                .build();
+        List<CartItem> items = new ArrayList<>();
 
-        // 3) Add each art piece as a CartItem (1-of-1)
-        if (request.artPieceIds() != null) {
-            for (Integer artId : request.artPieceIds()) {
-                if (artId == null) continue;
+        for (CreateOrderItemRequest itemRequest : request.items()) {
+            // ArtPiece ID is Long in request, Integer in entity -> convert
+            int artPieceId = itemRequest.artPieceId().intValue();
 
-                Optional<ArtPiece> artOpt = artPieceRepository.findById(artId);
-                if (artOpt.isEmpty()) continue;
+            ArtPiece artPiece = artPieceRepository.findById(artPieceId)
+                    .orElse(null);
 
-                ArtPiece piece = artOpt.get();
-
-                // skip if already sold/inactive
-                if (!piece.isActive()) {
-                    continue;
-                }
-
-                // Create a CartItem (no quantity, uses art price later)
-                CartItem item = new CartItem();
-                item.setArtPiece(piece);
-
-                // Attach to order (sets item.order = this)
-                order.addItem(item);
-
-                // Mark the art piece as sold / inactive
-                piece.setActive(false);
+            if (artPiece == null) {
+                continue;
             }
+
+            // if you want to block already sold / inactive art:
+            if (!artPiece.isActive()) {
+                continue;
+            }
+
+            CartItem item = new CartItem();
+            item.setOrder(order);
+            item.setArtPiece(artPiece);
+
+            // unique art: force quantity = 1
+            item.setQuantity(1);
+            item.setUnitPrice(artPiece.getPrice());
+
+            items.add(item);
+
+            // mark piece as no longer available
+            artPiece.setActive(false);
         }
 
-        // 4) If no items were added, don't create the order
-        if (order.getItems() == null || order.getItems().isEmpty()) {
-            return ResponseEntity.badRequest().build();
-        }
+        order.setItems(items);
 
-        // 5) Calculate total from the art piece prices
+        // use your existing PriceCalculator util
         order.setTotalAmount(PriceCalculator.calculateTotal(order));
 
-        // 6) Save order (cascades items)
-        Order saved = orderRepository.save(order);
-
-        return ResponseEntity.ok(saved);
+        return orderRepository.save(order);
     }
 
-    /**
-     * Get a single order by ID.
-     */
+    // GET /api/orders/{id}
     @GetMapping("/{id}")
-    public ResponseEntity<Order> getOrder(@PathVariable Long id) {
-        return orderRepository.findById(id)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+    public Order getOrder(@PathVariable Long id) {
+        return orderRepository.findById(id).orElse(null);
     }
 
-    /**
-     * Request body for creating an order.
-     * Example JSON:
-     * {
-     *   "userId": 1,
-     *   "artPieceIds": [1, 2, 3]
-     * }
-     */
-    public record CreateOrderRequest(Long userId, List<Integer> artPieceIds) {}
+    // Request body types
+
+    public record CreateOrderRequest(Long userId, List<CreateOrderItemRequest> items) {
+    }
+
+    // quantity is accepted but we ignore it (art is unique, always 1)
+    public record CreateOrderItemRequest(Long artPieceId, Integer quantity) {
+    }
 }

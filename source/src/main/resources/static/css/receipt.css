@@ -1,0 +1,94 @@
+body {
+    font-family: "Georgia", serif;
+    background: #2c342c;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+.top-bar {
+    background: #444;
+    color: white;
+    padding: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    margin-left: 20px;
+}
+
+.home-btn {
+    background: #bca461;
+    color: black;
+    padding: 6px 16px;
+    margin-right: 20px;
+    text-decoration: none;
+    border-radius: 4px;
+}
+
+.container {
+    background: #fdfdf9;
+    width: 60%;
+    margin: 40px auto;
+    padding: 30px 40px;
+    border: 6px solid #bca461;
+    border-radius: 4px;
+}
+
+h2 {
+    text-align: center;
+    margin-top: 0;
+}
+
+.divider {
+    margin: 20px 0;
+    border: none;
+    border-top: 2px solid #ccc;
+}
+
+.content {
+    width: 80%;
+    margin: auto;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    margin: 12px 0;
+}
+
+.label {
+    width: 40%;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.value {
+    width: 50%;
+    text-align: left;
+}
+
+.total {
+    text-align: center;
+    font-size: 22px;
+    margin-top: 20px;
+}
+
+.footer {
+    text-align: center;
+    margin-top: 25px;
+}
+
+.exit-btn {
+    margin-top: 10px;
+    display: inline-block;
+    background: #2e4627;
+    color: white;
+    padding: 8px 18px;
+    border-radius: 5px;
+    text-decoration: none;
+}
