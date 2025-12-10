@@ -11,6 +11,7 @@ import artstore.model.PromoteAdminForm;
 import artstore.repository.ArtPieceRepository;
 import artstore.repository.OrderRepository;
 import artstore.repository.UserRepository;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -41,7 +42,7 @@ public class AdminPageController{
     }
 
     @GetMapping("/admin-page")
-    public String adminPage(Model model) {
+    public String adminPage(Model model, HttpSession session) {
 
         List<Order> orders = OrderRepository.findAll();
 
@@ -49,9 +50,18 @@ public class AdminPageController{
         model.addAttribute("inventoryItemForm", new InventoryItemForm());
         model.addAttribute("orders",orders);
 
-
-        return "admin-page";
-    }
+        try {
+            Object role = session.getAttribute("userRole");
+            if (role == null || !role.toString().equals("ADMIN")) {
+                System.out.println(role.toString());
+                return "redirect:/index";
+            }
+            return "admin-page";
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return "admin-page";
+        }
+}
 
     @PostMapping("/promote/admin")
     @ResponseBody

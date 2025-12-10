@@ -1,10 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Payment</title>
+    <title>Checkout</title>
+    <link rel="stylesheet" th:href="@{/css/pay-now.css}">
 </head>
+
 <body>
-<a th:href="@{/index}">home</a>
-</body>
-</html>
+
+<div class="header">
+    <button class="back-btn">Back</button>
+    RAS
+</div>
+
+<div class="container">
+
+    <!-- Main single form -->
+    <form th:action="@{/checkout/submit}" method="post">
+
+        <!-- Row 1 -->
+        <div class="row">
+            <div class="col">
+                <input type="text" placeholder="Full name" th:field="*{fullName}">
+            </div>
+            <div class="col">
+                <input type="text" placeholder="Address" th:field="*{address}">
+            </div>
+            <div class="col small-col">
+                <input type="text" placeholder="ZIP Code" th:field="*{zip}">
+            </div>
+        </div>
+
+        <!-- Row 2 -->
+        <div class="row">
+            <div class="col">
+                <input type="text" placeholder="Phone Number" th:field="*{phone}">
+            </div>
+            <div class="col smaller-col">
+                <select th:field="*{shippingMethod}">
+                    <option value="">Shipping Method</option>
+                    <option th:each="method: ${shippingMethods}"
+                            th:value="${method}"
+                            th:text="${method}">
+                    </option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Items -->
+        <div class="item-row">
+
+            <div class="item">

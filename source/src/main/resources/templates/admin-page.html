@@ -32,11 +32,11 @@
                                 <tr th:each="order : ${orders}">
                                     <td th:text="${order.id}">Sale#</td>
                                     <td th:each="item : ${order.items}">
-                                        <span th:text="${item.title}">
+                                        <span th:text="${item.artPiece.title}">
                                         </span>
                                     </td>
-                                    <td th:text="${o.orderDate}">2025/11/04</td>
-                                    <td th:text="${o.totalAmount}">$0.00</td>
+                                    <td th:text="${order.createdAt}">2025/11/04</td>
+                                    <td th:text="${order.totalAmount}">0.00</td>
                                 </tr>
 
                 </tbody>

@@ -84,7 +84,7 @@ public class SignInController {
 
             if ("ADMIN".equalsIgnoreCase(loginType)) {
                 // valid admin login
-                return "redirect:/admin";
+                return "redirect:/admin-page";
             }
 
             // regular user login (or admin choosing regular mode)

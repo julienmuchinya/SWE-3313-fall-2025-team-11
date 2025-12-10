@@ -6,6 +6,10 @@ body {
     padding: 0;
 }
 
+a {
+    text-decoration: none;
+}
+
 .navbar {
     background-color: #bfa558;
     display: flex;

@@ -1,5 +1,6 @@
 package artstore.controller.web;
 
+import artstore.controller.api.OrderController;
 import artstore.entity.CartItem;
 import artstore.repository.CartItemRepository;
 import artstore.util.SessionUtil;
@@ -40,6 +41,7 @@ public class ShoppingCartController {
 
         model.addAttribute("cartItems", items);
         model.addAttribute("subtotal", total);
+        model.addAttribute("count", items.size());
 
         return "shopping-cart";   // shopping-cart.html
     }
@@ -66,7 +68,10 @@ public class ShoppingCartController {
 
 
         result.put("success", true);
+        result.put("subtotal", total);
+        result.put("count", items.size());
 
         return result;
     }
+
 }

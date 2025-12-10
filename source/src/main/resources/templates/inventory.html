@@ -9,9 +9,9 @@
 <header>
     <div class="navbar">
         <span class="logo">RAS</span>
-        <button class="nav-btn">Home</button>
-        <button class="nav-btn admin">Admin</button>
-        <span class="cart-icon">🛒</span>
+        <a th:href="@{/}"><button class="nav-btn">Home</button></a>
+        <a th:href="@{/admin-page}"><button class="nav-btn admin">Admin</button></a>
+        <a th:href="@{/shopping-cart}"><span class="cart-icon">🛒</span></a>
     </div>
 </header>
 
