@@ -2,16 +2,16 @@
 
 ## Environment Setup 
 - **Java 25**
-[Java Official Website](https://www.oracle.com/java/)
+    [Java Official Website](https://www.oracle.com/java/)
 
 - **Springboot**
-  [Spring Boot Documentation](https://spring.io/projects/spring-boot)
+    [Spring Boot Documentation](https://spring.io/projects/spring-boot)
 
 - **Maven**
-  [Maven](https://maven.apache.org/)
+    [Maven](https://maven.apache.org/)
   
 - **SQLite**
- [SQLite](https://www.sqlite.org/download.html)
+    [SQLite](https://www.sqlite.org/download.html)
   
 ## Data Storage Setup
 
