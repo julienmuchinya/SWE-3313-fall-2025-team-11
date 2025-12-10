@@ -18,27 +18,27 @@ public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; // Kept 'id' as per your provided code, though 'orderId' is recommended
+    private Long id; 
 
     // ============================
     // USER WHO PLACED THE ORDER
     // ============================
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id") // Kept 'user_id' as per your provided code, though 'UserId' is recommended
+    @JoinColumn(name = "user_id") 
     private User user;
 
     // ============================
     // ORDER META
     // ============================
     @Column(nullable = false)
-    private LocalDateTime createdAt; // Kept 'createdAt'
+    private LocalDateTime createdAt; 
 
-    // Kept 'totalAmount'
+    
     @Column(nullable = false)
     private BigDecimal totalAmount;
 
     // ============================
-    // PAYMENT INFO (SIMPLE MODEL) - KEPT AS REQUESTED
+    // PAYMENT INFO (SIMPLE MODEL) 
     // ============================
     @Column(nullable = false)
     private String paymentMethod;   // "CARD", "CASH", etc.
@@ -69,7 +69,7 @@ public class Order {
     }
 
     // ============================
-    // GETTERS + SETTERS (KEPT AS REQUESTED)
+    // GETTERS + SETTERS 
     // ============================
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
