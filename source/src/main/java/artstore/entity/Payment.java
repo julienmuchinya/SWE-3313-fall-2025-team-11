@@ -26,6 +26,7 @@ public class Payment {
     private PaymentMethod paymentMethod;
 
     private BigDecimal amount;
+    private BigDecimal shippingFee;
     private String status;
 
     @Column(columnDefinition = "DATETIME DEFAULT GETDATE()")
@@ -37,4 +38,5 @@ public class Payment {
             this.paidAt = LocalDateTime.now();
         }
     }
+
 }
