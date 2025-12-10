@@ -64,11 +64,11 @@
             <!-- Summary -->
             <div class="summary-box">
                 <div>Number of Items: <span th:text="${order.items.size()}">2</span></div>
-                <div>Subtotal: $<span th:text="${order.payment.subtotal}">276.31</span></div>
+                <div>Subtotal: $<span th:text="${order.payment.amount}">276.31</span></div>
                 <div>Shipping Fee: $<span th:text="${order.payment.shippingFee}">19.00</span></div>
-                <div>Sales Tax: $<span th:text="${order.payment.salesTax}">16.58</span></div>
+                <div>Sales Tax: $<span th:text="${salesTax}">16.58</span></div>
                 <br>
-                <div><strong>Order Total: $<span th:text="${order.payment.orderTotal}">311.89</span></strong></div>
+                <div><strong>Order Total: $<span th:text="${order.totalAmount}">311.89</span></strong></div>
             </div>
 
             <!-- Payment -->
