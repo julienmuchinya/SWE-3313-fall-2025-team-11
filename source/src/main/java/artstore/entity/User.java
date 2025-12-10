@@ -16,9 +16,8 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId;
+    private Integer userId;
 
-    // NEW: username column
     @Column(nullable = false, unique = true)
     private String username;
 
@@ -37,4 +36,3 @@ public class User {
     @Column(nullable = false)
     private LocalDateTime createdAt;
 }
-

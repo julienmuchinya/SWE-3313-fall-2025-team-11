@@ -1,100 +1,104 @@
 package artstore.controller.web;
 
 import artstore.entity.User;
+import artstore.repository.UserRepository;
+import artstore.util.PasswordUtil;
 import jakarta.servlet.http.HttpSession;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @Controller
+@RequestMapping("/sign-in")
 public class SignInController {
 
-    private static final Logger log = LoggerFactory.getLogger(SignInController.class);
+    private final UserRepository userRepository;
 
-    private final artstore.controller.web.AuthController authController;
-
-    public SignInController(artstore.controller.web.AuthController authController) {
-        this.authController = authController;
+    public SignInController(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
-    // Show the sign-in page (GET /sign-in)
-    @GetMapping("/sign-in")
-    public String showSignInForm() {
+    @GetMapping
+    public String showSignInForm(@RequestParam(value = "error", required = false) String error, Model model) {
+        if (error != null) {
+            model.addAttribute("error", error);
+        }
         return "sign-in";
     }
 
-    // Handle the sign-in form submission (POST /sign-in)
-    @PostMapping("/sign-in")
+    @PostMapping
     public String handleSignIn(
-            @RequestParam("usernameEmail") String usernameEmail,
+            @RequestParam("usernameOrEmail") String usernameOrEmail,
             @RequestParam("password") String password,
-            @RequestParam(name = "loginType", required = false) String loginType,
+            @RequestParam(value = "loginType", required = false) String loginType,
             HttpSession session,
             Model model
     ) {
         try {
-            // ---- Server-side validation ----
-
+            // Validate loginType was selected
             if (loginType == null || loginType.isBlank()) {
                 model.addAttribute("error", "Please select Regular User or Admin before signing in.");
                 return "sign-in";
             }
 
-            if (usernameEmail == null || usernameEmail.isBlank()) {
-                model.addAttribute("error", "Username / Email is required.");
+            if (usernameOrEmail == null || usernameOrEmail.isBlank()
+                    || password == null || password.isBlank()) {
+                model.addAttribute("error", "Username/email and password are required.");
                 return "sign-in";
             }
 
-            if (password == null || password.isBlank()) {
-                model.addAttribute("error", "Password is required.");
+            // Try email first
+            Optional<User> userOpt = userRepository.findByEmail(usernameOrEmail);
+            // If not found by email, try username
+            if (userOpt.isEmpty()) {
+                userOpt = userRepository.findByUsername(usernameOrEmail);
+            }
+
+            if (userOpt.isEmpty()) {
+                model.addAttribute("error", "Invalid username/email or password.");
                 return "sign-in";
             }
 
-            // ---- Authenticate (username OR email) ----
+            User user = userOpt.get();
 
-            User user = authController.authenticate(usernameEmail, password);
-
-            if (user == null) {
-                model.addAttribute("error", "Invalid email/username or password.");
+            // Verify the selected role matches the user's role
+            String expectedRole = "ADMIN".equalsIgnoreCase(loginType) ? "ADMIN" : "USER";
+            if (!expectedRole.equalsIgnoreCase(user.getRole())) {
+                model.addAttribute("error", "Invalid role selection. Please select the correct role.");
                 return "sign-in";
             }
 
-            // ---- Role check for admin login ----
-
-            if ("ADMIN".equalsIgnoreCase(loginType)
-                    && !"ADMIN".equalsIgnoreCase(user.getRole())) {
-
-                model.addAttribute("error", "You do not have admin access.");
+            // Check password using PasswordUtil
+            boolean valid = PasswordUtil.verifyPassword(password, user.getPasswordHash());
+            if (!valid) {
+                model.addAttribute("error", "Invalid username/email or password.");
                 return "sign-in";
             }
 
-            // ---- Store user in session ----
-
+            // Store info in session
             session.setAttribute("userId", user.getUserId());
             session.setAttribute("userEmail", user.getEmail());
             session.setAttribute("userRole", user.getRole());
             session.setAttribute("userFirstName", user.getFirstName());
             session.setAttribute("username", user.getUsername());
 
-            // ---- Redirect based on loginType ----
-
-            if ("ADMIN".equalsIgnoreCase(loginType)) {
-                // valid admin login
+            // Redirect based on role
+            if ("ADMIN".equalsIgnoreCase(user.getRole())) {
                 return "redirect:/admin-page";
+            } else {
+                return "redirect:/inventory";
             }
-
-            // regular user login (or admin choosing regular mode)
-            return "redirect:/";
-
-        } catch (Exception ex) {
-            // catch unexpected runtime errors to avoid Whitelabel page
-            log.error("Error during sign-in", ex);
-            model.addAttribute("error", "An unexpected error occurred while signing in. Please try again.");
+        } catch (Exception e) {
+            model.addAttribute("error", "An error occurred during sign in. Please try again.");
             return "sign-in";
         }
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/";
     }
 }

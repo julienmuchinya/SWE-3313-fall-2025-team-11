@@ -8,11 +8,12 @@ import artstore.repository.ArtPieceRepository;
 import artstore.repository.OrderRepository;
 import artstore.repository.UserRepository;
 import artstore.util.PriceCalculator;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/orders")
@@ -22,82 +23,81 @@ public class OrderController {
     private final UserRepository userRepository;
     private final ArtPieceRepository artPieceRepository;
 
-    public OrderController(OrderRepository orderRepository,
-                           UserRepository userRepository,
-                           ArtPieceRepository artPieceRepository) {
+    public OrderController(
+            OrderRepository orderRepository,
+            UserRepository userRepository,
+            ArtPieceRepository artPieceRepository
+    ) {
         this.orderRepository = orderRepository;
         this.userRepository = userRepository;
         this.artPieceRepository = artPieceRepository;
     }
 
-    // POST /api/orders
+    /**
+     * Create a new order for a user.
+     * Body: { "userId": 1, "artPieceIds": [1, 2, 3] }
+     */
     @PostMapping
-    public Order createOrder(@RequestBody CreateOrderRequest request) {
-        // find user
-        User user = userRepository.findById(request.userId()).orElse(null);
-        if (user == null) {
-            return null;
+    public ResponseEntity<Order> createOrder(@RequestBody CreateOrderRequest request) {
+
+        if (request == null || request.userId() == null) {
+            return ResponseEntity.badRequest().build();
         }
+
+        Optional<User> userOpt = userRepository.findById(request.userId());
+        if (userOpt.isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
+        User user = userOpt.get();
 
         Order order = new Order();
         order.setUser(user);
-        order.setCreatedAt(LocalDateTime.now());
-        order.setStatus("PENDING");
-        order.setPaymentMethod("CARD");      // simple default
-        order.setPaymentStatus("PENDING");
+        order.setOrderDate(LocalDateTime.now());
+        order.setStatus("NEW");
 
-        List<CartItem> items = new ArrayList<>();
+        if (request.artPieceIds() != null) {
+            for (Integer artId : request.artPieceIds()) {
+                if (artId == null) continue;
 
-        for (CreateOrderItemRequest itemRequest : request.items()) {
-            // ArtPiece ID is Long in request, Integer in entity -> convert
-            int artPieceId = itemRequest.artPieceId().intValue();
+                Optional<ArtPiece> artOpt = artPieceRepository.findById(artId);
+                if (artOpt.isEmpty()) continue;
 
-            ArtPiece artPiece = artPieceRepository.findById(artPieceId)
-                    .orElse(null);
+                ArtPiece piece = artOpt.get();
 
-            if (artPiece == null) {
-                continue;
+                if (!piece.isActive()) {
+                    continue;
+                }
+
+                CartItem item = new CartItem();
+                item.setArtPiece(piece);
+
+                order.addItem(item);
+
+                piece.setActive(false);
+                artPieceRepository.save(piece);
             }
-
-            // if you want to block already sold / inactive art:
-            if (!artPiece.isActive()) {
-                continue;
-            }
-
-            CartItem item = new CartItem();
-            item.setOrder(order);
-            item.setArtPiece(artPiece);
-
-            // unique art: force quantity = 1
-            item.setQuantity(1);
-            item.setUnitPrice(artPiece.getPrice());
-
-            items.add(item);
-
-            // mark piece as no longer available
-            artPiece.setActive(false);
         }
 
-        order.setItems(items);
+        if (order.getItems() == null || order.getItems().isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
 
-        // use your existing PriceCalculator util
         order.setTotalAmount(PriceCalculator.calculateTotal(order));
 
-        return orderRepository.save(order);
+        Order saved = orderRepository.save(order);
+
+        return ResponseEntity.ok(saved);
     }
 
-    // GET /api/orders/{id}
+    /**
+     * Get a single order by ID.
+     */
     @GetMapping("/{id}")
-    public Order getOrder(@PathVariable Long id) {
-        return orderRepository.findById(id).orElse(null);
+    public ResponseEntity<Order> getOrder(@PathVariable Integer id) {
+        return orderRepository.findById(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    // Request body types
-
-    public record CreateOrderRequest(Long userId, List<CreateOrderItemRequest> items) {
-    }
-
-    // quantity is accepted but we ignore it (art is unique, always 1)
-    public record CreateOrderItemRequest(Long artPieceId, Integer quantity) {
-    }
+    public record CreateOrderRequest(Integer userId, List<Integer> artPieceIds) {}
 }

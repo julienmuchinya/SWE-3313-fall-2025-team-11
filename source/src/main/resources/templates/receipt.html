@@ -3,35 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <title>Receipt</title>
-    <link rel="stylesheet" href="/css/receipt.css">
+    <link rel="stylesheet" th:href="@{/css/receipt.css}">
 </head>
 
 <body>
 
 <header class="top-bar">
+    <a th:href="@{/}" class="home-btn">Home</a>
     <div class="logo">RAS</div>
-    <a href="/" class="home-btn">Home</a>
 </header>
 
 <div class="container">
-    <h2>User, your package is on the way!</h2>
+    <h2 th:text="${order.user != null ? order.user.firstName + ', your package is on the way!' : 'Your package is on the way!'}">User, your package is on the way!</h2>
     <hr class="divider">
 
     <div class="content">
 
         <div class="row">
             <div class="label">Sales #</div>
-            <div class="value" th:text="${order.id}">1234567890</div>
+            <div class="value" th:text="${order.orderId}">1234567890</div>
         </div>
 
         <div class="row">
             <div class="label">Transaction Date</div>
-            <div class="value" th:text="${order.createdAt}">2025/11/04</div>
+            <div class="value" th:text="${#temporals.format(order.orderDate, 'yyyy/MM/dd')}">2025/11/04</div>
+        </div>
+
+        <div class="row">
+            <div class="label">Shipping Address</div>
+            <div class="value" th:text="${order.user != null ? order.user.email : 'N/A'}">Kennesaw State University</div>
         </div>
 
         <div class="row">
             <div class="label">Credit Card</div>
-            <div class="value" th:text="${order.payment.paymentMethod.last4}">
+            <div class="value" th:text="${order.payment != null && order.payment.paymentMethod != null ? '---- ---- ---- ' + order.payment.paymentMethod.last4 : '---- ---- ---- 1234'}">
                 ---- ---- ---- 1234
             </div>
         </div>
@@ -39,25 +44,25 @@
         <div class="row">
             <div class="label">Item(s) Purchased</div>
             <div class="value">
-                <span th:each="item : ${order.items}">
-                    <span th:text="${item.artPiece.title}"></span><br>
+                <span th:each="item, iterStat : ${order.items}">
+                    <span th:text="${item.artPiece.title}"></span><span th:if="${!iterStat.last}">, </span>
                 </span>
             </div>
         </div>
 
         <div class="row">
             <div class="label">Subtotal</div>
-            <div class="value" th:text="'$' + ${order.payment.subtotal}">$276.31</div>
+            <div class="value" th:text="${'$' + #numbers.formatDecimal(order.totalAmount != null ? order.totalAmount : 0, 0, 2)}">$276.31</div>
         </div>
 
         <div class="row">
             <div class="label">Tax</div>
-            <div class="value" th:text="'$' + ${order.payment.tax}">$16.58</div>
+            <div class="value" th:text="${order.payment != null && order.payment.amount != null && order.payment.shippingFee != null ? '$' + #numbers.formatDecimal(order.payment.amount.subtract(order.payment.shippingFee).subtract(order.totalAmount), 0, 2) : '$0.00'}">$16.58</div>
         </div>
 
         <div class="row">
             <div class="label">Shipping Fee</div>
-            <div class="value" th:text="'$' + ${order.payment.shippingFee}">$19.00</div>
+            <div class="value" th:text="${order.payment != null && order.payment.shippingFee != null ? '$' + #numbers.formatDecimal(order.payment.shippingFee, 0, 2) : '$0.00'}">$19.00</div>
         </div>
 
     </div>
@@ -65,12 +70,12 @@
     <hr class="divider">
 
     <h3 class="total">Grand Total:
-        <span th:text="'$' + ${order.payment.total}">$311.89</span>
+        <span th:text="${'$' + #numbers.formatDecimal(order.totalAmount != null ? order.totalAmount : 0, 0, 2)}">$311.89</span>
     </h3>
 
     <div class="footer">
         <p>For any questions about your order, call us at (123) 456-JEFF or email us at Roughneck@kennesaw.edu</p>
-        <a href="/" class="exit-btn">Exit</a>
+        <a th:href="@{/}" class="exit-btn">Exit</a>
     </div>
 </div>
 

@@ -5,7 +5,6 @@
     <title>Sign In</title>
     <link rel="stylesheet" th:href="@{/css/sign-in.css}">
 
-    <!-- Small extra styles to show selected button, keeping your base style -->
     <style>
         .button-row {
             display: flex;
@@ -19,30 +18,37 @@
             opacity: 0.9;
             transform: scale(1.02);
         }
+
+        .error-msg {
+            color: #ff6b6b;
+            margin-top: 8px;
+            text-align: center;
+            font-size: 0.9rem;
+        }
     </style>
 </head>
 <body>
 
 <div class="bg-layer"></div>
 
-
 <a th:href="@{/index}" class="home-btn">Home</a>
 <a th:href="@{/sign-up}" class="second-btn">Sign Up</a>
 
 <div class="login-box">
     <form th:action="@{/sign-in}" method="post">
-
+        <!-- THIS NAME MUST MATCH @RequestParam("usernameOrEmail") -->
         <input type="text"
-               th:name="usernameEmail"
+               name="usernameOrEmail"
                placeholder="Username / Email Address"
                class="input-field">
 
-        <input type="text"
-               th:name="password"
+        <!-- THIS NAME MUST MATCH @RequestParam("password") -->
+        <input type="password"
+               name="password"
                placeholder="Password"
                class="input-field">
 
-        <!-- error message area (re-used by JS & backend) -->
+        <!-- error message from backend -->
         <div th:if="${error}" class="error-msg" th:text="${error}"></div>
         <div th:if="${error == null}" class="error-msg" style="display:none;"></div>
 
@@ -61,7 +67,7 @@
             </button>
         </div>
 
-        <!-- Hidden field to actually send loginType -->
+        <!-- Hidden field to send loginType -->
         <input type="hidden" name="loginType" id="loginType">
 
         <!-- Submit button -->
@@ -78,20 +84,14 @@
         const form = document.querySelector('.login-box form');
         const errorDiv = document.querySelector('.error-msg');
 
-        // click handler to select USER or ADMIN
         roleButtons.forEach(btn => {
             btn.addEventListener('click', () => {
-                // clear selection styles
                 roleButtons.forEach(b => b.classList.remove('selected-role'));
-
-                // highlight clicked button
                 btn.classList.add('selected-role');
 
-                // store selected role in hidden input
                 const role = btn.getAttribute('data-role');
                 loginTypeInput.value = role;
 
-                // clear any previous role-selection error
                 if (errorDiv) {
                     if (errorDiv.textContent === 'Please select Regular User or Admin before signing in.') {
                         errorDiv.textContent = '';
@@ -101,7 +101,6 @@
             });
         });
 
-        // client-side validation before submit
         form.addEventListener('submit', function (e) {
             if (!loginTypeInput.value) {
                 e.preventDefault();

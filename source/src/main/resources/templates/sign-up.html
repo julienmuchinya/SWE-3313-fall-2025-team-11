@@ -15,11 +15,11 @@
 <div class="login-box">
     <form th:action="@{/sign-up}" method="post">
 
-        <input type="text" th:name="username" placeholder="Username" class="input-field">
-        <input type="text" th:name="email" placeholder="Email Address" class="input-field">
-        <input type="text" th:name="confirmEmail" placeholder="Confirm Email Address" class="input-field">
-        <input type="text" th:name="password" placeholder="Password" class="input-field">
-        <input type="text" th:name="confirmPassword" placeholder="Confirm Password" class="input-field">
+        <input type="text" th:name="username" placeholder="Username" class="input-field" required>
+        <input type="email" th:name="email" placeholder="Email Address" class="input-field" required>
+        <input type="email" th:name="confirmEmail" placeholder="Confirm Email Address" class="input-field" required>
+        <input type="password" th:name="password" placeholder="Password" class="input-field" required>
+        <input type="password" th:name="confirmPassword" placeholder="Confirm Password" class="input-field" required>
 
         <div th:if="${error}" class="error-msg" th:text="${error}"></div>
 

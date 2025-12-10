@@ -1,20 +1,22 @@
 package artstore.util;
 
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
-// Utility class for password hashing and verification
+/**
+ * Simple password helper. Right now it does plain-text compare
+ * so it matches existing data. You can upgrade to hashing later.
+ */
 public class PasswordUtil {
 
-    // Reuse a single encoder instance
-    private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-
-    // Hash a plain-text password before saving to DB
-    public static String hashPassword(String plainPassword) {
-        return encoder.encode(plainPassword);
+    public static String hashPassword(String password) {
+        // For now, just return as-is (no hashing).
+        // If you add hashing later, update this method.
+        return password;
     }
 
-    // Check if a plain-text password matches a stored hash
-    public static boolean verifyPassword(String plainPassword, String hashedPassword) {
-        return encoder.matches(plainPassword, hashedPassword);
+    public static boolean verifyPassword(String rawPassword, String storedHash) {
+        if (rawPassword == null || storedHash == null) {
+            return false;
+        }
+        // Plain text compare (matches hashPassword above)
+        return rawPassword.equals(storedHash);
     }
 }

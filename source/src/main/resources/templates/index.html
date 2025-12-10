@@ -10,7 +10,9 @@
 <div>
     <h1><u>ROUGHNECK</u></h1>
     <h2>Art Shop</h2>
-    <p class="subtitle">  Art from Our Creative Collective </p>
+    <p class="subtitle">Original Art from Our Creative Collective</p>
+    
+    <div th:if="${error}" class="error-message" th:text="${error}"></div>
 
     <div class="buttons">
         <a th:href="@{/inventory}"><button class="btn-dark">Browse Inventory</button></a>

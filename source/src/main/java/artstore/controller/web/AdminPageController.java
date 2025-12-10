@@ -1,33 +1,26 @@
 package artstore.controller.web;
 
-
 import artstore.entity.ArtPiece;
 import artstore.entity.Order;
 import artstore.entity.User;
+import artstore.model.EditItemForm;
 import artstore.model.InventoryItemForm;
 import artstore.model.PromoteAdminForm;
-
 
 import artstore.repository.ArtPieceRepository;
 import artstore.repository.OrderRepository;
 import artstore.repository.UserRepository;
-import jakarta.servlet.http.HttpSession;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-
 import java.io.IOException;
-
+import java.math.BigDecimal;
 import java.util.Base64;
-
 import java.util.List;
 import java.util.Optional;
-
 
 @Controller
 public class AdminPageController{
@@ -42,26 +35,41 @@ public class AdminPageController{
     }
 
     @GetMapping("/admin-page")
-    public String adminPage(Model model, HttpSession session) {
+    public String adminPage(Model model, jakarta.servlet.http.HttpSession session) {
+        // Check if user is admin
+        String userRole = (String) session.getAttribute("userRole");
+        if (userRole == null || !"ADMIN".equals(userRole)) {
+            return "redirect:/sign-in?error=Admin access required";
+        }
 
-        List<Order> orders = OrderRepository.findAll();
+        List<Order> allOrders = OrderRepository.findAll();
+        List<Order> paidOrders = allOrders.stream()
+                .filter(order -> "PAID".equals(order.getStatus()))
+                .toList();
+
+        BigDecimal grandTotal = paidOrders.stream()
+                .map(order -> order.getTotalAmount() != null ? order.getTotalAmount() : BigDecimal.ZERO)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        // Get all items (both sold and unsold)
+        List<ArtPiece> allItems = ArtPieceRepository.findAll();
+        List<ArtPiece> unsoldItems = ArtPieceRepository.findByIsActiveTrueAndOrderItemIsNull();
+        List<ArtPiece> soldItems = allItems.stream()
+                .filter(item -> !item.isActive() || item.getOrderItem() != null)
+                .toList();
 
         model.addAttribute("promoteAdminForm", new PromoteAdminForm());
         model.addAttribute("inventoryItemForm", new InventoryItemForm());
-        model.addAttribute("orders",orders);
+        model.addAttribute("editItemForm", new EditItemForm());
+        model.addAttribute("orders", paidOrders);
+        model.addAttribute("grandTotal", grandTotal);
+        model.addAttribute("totalSales", paidOrders.size());
+        model.addAttribute("allItems", allItems);
+        model.addAttribute("unsoldItems", unsoldItems);
+        model.addAttribute("soldItems", soldItems);
 
-        try {
-            Object role = session.getAttribute("userRole");
-            if (role == null || !role.toString().equals("ADMIN")) {
-                System.out.println(role.toString());
-                return "redirect:/index";
-            }
-            return "admin-page";
-        } catch (Exception exception) {
-            exception.printStackTrace();
-            return "admin-page";
-        }
-}
+        return "admin-page";
+    }
 
     @PostMapping("/promote/admin")
     @ResponseBody
@@ -87,12 +95,6 @@ public class AdminPageController{
         }
     }
 
-
-
-
-
-
-
     @PostMapping("/inventory/add")
     @ResponseBody
     public String addInventory(@ModelAttribute InventoryItemForm inventoryForm, Model model) {
@@ -100,12 +102,19 @@ public class AdminPageController{
         if (inventoryForm.getTitle() == null || inventoryForm.getTitle().trim().isEmpty()) {
             return "Name is required.";
         }
+        if (inventoryForm.getArtistName() == null || inventoryForm.getArtistName().trim().isEmpty()) {
+            return "Artist is required.";
+        }
         if (inventoryForm.getDescription() == null || inventoryForm.getDescription().trim().isEmpty()) {
             return "Description is required.";
         }
 
         if (inventoryForm.getPrice() == null) {
             return "Price is required.";
+        }
+        
+        if (inventoryForm.getImage() == null || inventoryForm.getImage().isEmpty()) {
+            return "Image is required.";
         }
 
         MultipartFile image = inventoryForm.getImage();
@@ -118,17 +127,116 @@ public class AdminPageController{
             return "Failed to save image.";
         }
 
-
-
         ArtPiece artPiece = new ArtPiece();
         artPiece.setTitle(inventoryForm.getTitle());
+        artPiece.setArtistName(inventoryForm.getArtistName() != null ? inventoryForm.getArtistName() : "Unknown");
         artPiece.setDescription(inventoryForm.getDescription());
         artPiece.setPrice(inventoryForm.getPrice());
         artPiece.setImageUrl(imageUrl);
+        artPiece.setActive(true);
 
         ArtPieceRepository.save(artPiece);
         return "Inventory Item successfully added.";
     }
 
-}
+    @GetMapping(value = "/inventory/edit/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public java.util.Map<String, Object> getItemForEdit(@PathVariable Integer id) {
+        Optional<ArtPiece> artPieceOpt = ArtPieceRepository.findById(id);
+        if (artPieceOpt.isPresent()) {
+            ArtPiece artPiece = artPieceOpt.get();
+            java.util.Map<String, Object> response = new java.util.HashMap<>();
+            response.put("productId", artPiece.getProductId());
+            response.put("title", artPiece.getTitle());
+            response.put("artistName", artPiece.getArtistName());
+            response.put("description", artPiece.getDescription());
+            response.put("price", artPiece.getPrice());
+            response.put("existingImageUrl", artPiece.getImageUrl());
+            return response;
+        }
+        return null;
+    }
 
+    @PostMapping("/inventory/edit")
+    @ResponseBody
+    public String editInventory(@ModelAttribute EditItemForm editForm) {
+        try {
+            Optional<ArtPiece> artPieceOpt = ArtPieceRepository.findById(editForm.getProductId());
+            if (artPieceOpt.isEmpty()) {
+                return "Item not found.";
+            }
+
+            ArtPiece artPiece = artPieceOpt.get();
+
+            // Check if item is unsold (active and not in an order)
+            if (!artPiece.isActive() || artPiece.getOrderItem() != null) {
+                return "Cannot edit sold items.";
+            }
+
+            // Validate required fields
+            if (editForm.getTitle() == null || editForm.getTitle().trim().isEmpty()) {
+                return "Name is required.";
+            }
+            if (editForm.getArtistName() == null || editForm.getArtistName().trim().isEmpty()) {
+                return "Artist is required.";
+            }
+            if (editForm.getDescription() == null || editForm.getDescription().trim().isEmpty()) {
+                return "Description is required.";
+            }
+            if (editForm.getPrice() == null) {
+                return "Price is required.";
+            }
+
+            // Update fields
+            artPiece.setTitle(editForm.getTitle());
+            artPiece.setArtistName(editForm.getArtistName());
+            artPiece.setDescription(editForm.getDescription());
+            artPiece.setPrice(editForm.getPrice());
+
+            // Handle image update
+            MultipartFile newImage = editForm.getImage();
+            if (newImage != null && !newImage.isEmpty()) {
+                try {
+                    String imageUrl = Base64.getEncoder().encodeToString(newImage.getBytes());
+                    imageUrl = "data:" + newImage.getContentType() + ";base64," + imageUrl;
+                    artPiece.setImageUrl(imageUrl);
+                } catch (IOException e) {
+                    return "Failed to update image.";
+                }
+            } else if (editForm.getExistingImageUrl() != null) {
+                // Keep existing image if no new one provided
+                artPiece.setImageUrl(editForm.getExistingImageUrl());
+            }
+
+            // Save to database
+            ArtPieceRepository.save(artPiece);
+            return "Item successfully updated.";
+        } catch (Exception e) {
+            return "Error updating item: " + e.getMessage();
+        }
+    }
+
+    @PostMapping("/inventory/delete/{id}")
+    @ResponseBody
+    public String deleteInventory(@PathVariable Integer id) {
+        try {
+            Optional<ArtPiece> artPieceOpt = ArtPieceRepository.findById(id);
+            if (artPieceOpt.isEmpty()) {
+                return "Item not found.";
+            }
+
+            ArtPiece artPiece = artPieceOpt.get();
+
+            // Check if item is sold
+            if (!artPiece.isActive() || artPiece.getOrderItem() != null) {
+                return "Cannot delete sold items. You can deactivate them instead.";
+            }
+
+            // Delete from database
+            ArtPieceRepository.delete(artPiece);
+            return "Item successfully deleted.";
+        } catch (Exception e) {
+            return "Error deleting item: " + e.getMessage();
+        }
+    }
+}

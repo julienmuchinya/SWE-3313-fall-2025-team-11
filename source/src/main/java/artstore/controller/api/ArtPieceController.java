@@ -27,7 +27,7 @@ public class ArtPieceController {
 
     // GET /api/artpieces/{id}
     @GetMapping("/{id}")
-    public ArtPiece getArtPieceById(@PathVariable Long id) {
-        return artPieceRepository.findById(id.intValue()).orElse(null);
+    public ArtPiece getArtPieceById(@PathVariable Integer id) {
+        return artPieceRepository.findById(id).orElse(null);
     }
 }

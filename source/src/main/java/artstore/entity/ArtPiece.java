@@ -4,36 +4,39 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "Product")
+@Table(name = "ArtPiece")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class ArtPiece {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long productId;
+    private Integer productId;
 
+    @Column(nullable = false)
     private String title;
-    private String artist;
+
+    @Column(length = 2000)
     private String description;
+
+    // ✅ artist name added
+    @Column(nullable = false)
+    private String artistName;
+
+    @Column(precision = 10, scale = 2, nullable = false)
     private BigDecimal price;
+
     private String imageUrl;
 
-    private boolean isActive;
-    private LocalDateTime createdAt;
+    // ✅ this matches "isActive" in repository method name
+    @Column(nullable = false)
+    private boolean isActive = true;
 
+    // ✅ back-reference so "OrderItemIsNull" in repo works
     @OneToOne(mappedBy = "artPiece")
     private CartItem orderItem;
-
-    @PrePersist
-    private void prePersist() {
-        this.createdAt = LocalDateTime.now();
-        this.isActive = true;
-    }
 }

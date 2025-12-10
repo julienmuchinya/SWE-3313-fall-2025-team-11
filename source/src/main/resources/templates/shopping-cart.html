@@ -1,76 +1,99 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Cart</title>
+    <meta charset="UTF-8">
+    <title>Shopping Cart</title>
     <link rel="stylesheet" th:href="@{/css/shopping-cart.css}">
 </head>
-
 <body>
-<div class="cart-container">
 
+<div class="header">
+    <a th:href="@{/inventory}" class="back-btn">Back</a>
+    <span class="logo">RAS</span>
+    <a th:href="@{/admin-page}" class="admin-btn">Admin</a>
+</div>
+
+<div class="cart-container">
     <!-- MAIN CART COLUMN -->
     <div class="cart-list">
+        <div th:if="${cartItems == null || cartItems.isEmpty()}" class="empty-cart">
+            <p>Your cart is empty.</p>
+            <a th:href="@{/inventory}" class="browse-btn">Browse Inventory</a>
+        </div>
 
-        <div th:each="cartItem : ${cartItems}"
+        <div th:each="artPiece : ${cartItems}"
              class="cart-entry"
-             th:attr="data-id=${cartItem.id}">
+             th:attr="data-id=${artPiece.productId}">
 
-            <h2 class="title" th:text="${cartItem.artPiece.title}"></h2>
+            <h2 class="title" th:text="${artPiece.title}"></h2>
 
             <div class="entry-body">
                 <div class="text-block">
-                    <div class="price" th:text="${'$' + cartItem.artPiece.price}"></div>
-                    <div class="artist" th:text="'Artist: '">add to repo</div>
-                    <div class="tags" th:text="${cartItem.artPiece.description}"></div>
-                    <button class="remove-btn">Remove</button>
+                    <div class="price" th:text="${'$' + artPiece.price}"></div>
+                    <div class="artist" th:text="'Artist: ' + ${artPiece.artistName}"></div>
+                    <div class="tags" th:text="${artPiece.description}"></div>
+                    <a href="#" class="remove-btn" th:attr="data-id=${artPiece.productId}">Remove 🗑️</a>
                 </div>
                 <img class="preview-img"
-                     th:src="@{${cartItem.artPiece.imageUrl}}"
+                     th:src="@{${artPiece.imageUrl}}"
                      alt="Artwork">
             </div>
         </div>
     </div>
-    <script>
-        document.querySelectorAll(".remove-btn").forEach(btn => {
-                btn.addEventListener("click", async (e) => {
-                    const entry = e.target.closest(".cart-entry");
-                    const id = entry.dataset.id;
-                    console.log("button clicked, id=", id)
 
-                    const response = await fetch(`/cart/remove/${id}`, {
+    <!-- SUMMARY COLUMN -->
+    <div class="summary" th:if="${cartItems != null && !cartItems.isEmpty()}">
+        <div class="row">
+            <span>Items</span>
+            <span id="itemCount" th:text="${count}">0</span>
+        </div>
+
+        <div class="row">
+            <span>Subtotal</span>
+            <span id="subtotal" th:text="${'$' + subtotal}">$0.00</span>
+        </div>
+
+        <form th:action="@{/shopping-cart/checkout}" method="post">
+            <button type="submit" class="checkout-btn">Proceed to Checkout</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        document.querySelectorAll(".remove-btn").forEach(btn => {
+            btn.addEventListener("click", async (e) => {
+                e.preventDefault();
+                const productId = btn.getAttribute("data-id");
+                const entry = btn.closest(".cart-entry");
+
+                try {
+                    const response = await fetch(`/cart/remove/${productId}`, {
                         method: "DELETE"
                     });
 
                     const data = await response.json();
 
                     if (data.success) {
-                        // Remove item from page
                         entry.remove();
-
                         document.getElementById("subtotal").textContent = "$" + data.subtotal;
                         document.getElementById("itemCount").textContent = data.count;
+                        
+                        // If cart is empty, reload page
+                        if (data.count === 0) {
+                            window.location.reload();
+                        }
+                    } else {
+                        alert(data.message || "Failed to remove item");
                     }
-                });
+                } catch (error) {
+                    console.error("Error removing item:", error);
+                    alert("Error removing item. Please try again.");
+                }
             });
-
-    </script>
-
-
-    <!-- SUMMARY COLUMN -->
-    <div class="summary">
-        <div class="row">
-            <span>Items</span>
-            <span id="itemCount" th:text="${count}"></span>
-        </div>
-
-        <div class="row">
-            <span>Subtotal</span>
-            <span id="subtotal" th:text="'$' + ${subtotal}"></span>
-        </div>
-
-        <a th:href="@{/api/orders}" class="checkout-btn">Proceed to Checkout</a>
-    </div>
-</div>
+        });
+    });
+</script>
 
 </body>
 </html>
