@@ -31,13 +31,11 @@
         </div>
     </div>
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const removeButtons = document.querySelectorAll(".remove-btn");
-
-            removeButtons.forEach(btn => {
+        document.querySelectorAll(".remove-btn").forEach(btn => {
                 btn.addEventListener("click", async (e) => {
                     const entry = e.target.closest(".cart-entry");
                     const id = entry.dataset.id;
+                    console.log("button clicked, id=", id)
 
                     const response = await fetch(`/cart/remove/${id}`, {
                         method: "DELETE"
@@ -48,10 +46,12 @@
                     if (data.success) {
                         // Remove item from page
                         entry.remove();
+
+                        document.getElementById("subtotal").textContent = "$" + data.subtotal;
+                        document.getElementById("itemCount").textContent = data.count;
                     }
                 });
             });
-        });
 
     </script>
 

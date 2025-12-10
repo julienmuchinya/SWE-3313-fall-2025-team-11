@@ -31,6 +31,7 @@ public class InventoryController {
     @GetMapping("/inventory")
     public String inventory(Model model, @RequestParam(defaultValue = "1") int page) {
         List<ArtPiece> unsortedArtPieces = artPieceRepository.findByIsActiveTrueAndOrderItemIsNull();
+        System.out.println("unsortedArtPieces: " + unsortedArtPieces);
         List<ArtPiece> artPieces = unsortedArtPieces.stream().sorted(Comparator.comparing(ArtPiece::getPrice)).toList().reversed();
         int artPieceSize = artPieces.size();
         int PAGE_SIZE = 9;
@@ -43,7 +44,7 @@ public class InventoryController {
 
         List<ArtPiece> artPiecesPage = artPieces.subList(start, end);
 
-        model.addAttribute("artPieces", unsortedArtPieces);
+        model.addAttribute("artPieces", artPiecesPage);
         model.addAttribute("currentPage", page);
         model.addAttribute("pageCount", pageCount);
 

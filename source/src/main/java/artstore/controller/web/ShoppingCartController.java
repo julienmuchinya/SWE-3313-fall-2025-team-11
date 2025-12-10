@@ -1,8 +1,6 @@
 package artstore.controller.web;
 
-import artstore.entity.ArtPiece;
 import artstore.entity.CartItem;
-import artstore.repository.ArtPieceRepository;
 import artstore.repository.CartItemRepository;
 import artstore.util.SessionUtil;
 import jakarta.servlet.http.HttpSession;
@@ -17,7 +15,6 @@ import java.util.Map;
 
 
 @Controller
-@RequestMapping("/shopping-cart")
 public class ShoppingCartController {
 
 
@@ -28,7 +25,7 @@ public class ShoppingCartController {
         this.cartItemRepository = cartItemRepository;
     }
 
-    @GetMapping
+    @GetMapping("/shopping-cart")
     public String shoppingCart(HttpSession session, Model model) {
 
         List<Long> productIds = SessionUtil.getCartProductIds(session);
@@ -50,7 +47,9 @@ public class ShoppingCartController {
     @DeleteMapping("/cart/remove/{id}")
     @ResponseBody
     public Map<String, Object> removeFromCart(Model model, @PathVariable Long id, HttpSession session) {
+        System.out.println("id = " + id);
         SessionUtil.removeProductFromCart(session, id);
+        cartItemRepository.deleteById(id);
 
         Map<String, Object> result = new HashMap<>();
         List<Long> productIds = SessionUtil.getCartProductIds(session);
@@ -61,9 +60,12 @@ public class ShoppingCartController {
             total = total.add(item.getArtPiece().getPrice());
         }
 
+        model.addAttribute("cartItems", items);
+        model.addAttribute("subtotal", total);
+
+
+
         result.put("success", true);
-        result.put("total", total);
-        result.put("count", items.size());
 
         return result;
     }

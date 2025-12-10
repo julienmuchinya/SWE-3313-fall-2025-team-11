@@ -5,25 +5,22 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "OrderItem")   // matches ERD "OrderItem" table
+@Table(name = "OrderItem")
 public class CartItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "OrderItemId")
+    @Column(name = "OrderItemId")   // MUST MATCH PK NAME IN DB
     private Long id;
 
-    // many items in one order
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "orderId")
+    @JoinColumn(name = "OrderId")
     private Order order;
 
-    // 1 Product -> 0 or 1 OrderItem
     @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "productId", unique = true)
+    @JoinColumn(name = "ProductId", unique = true, nullable = false)
     private ArtPiece artPiece;
 
-    // kept for compatibility – but in your logic you always use quantity = 1
     private Integer quantity;
     private BigDecimal unitPrice;
 
