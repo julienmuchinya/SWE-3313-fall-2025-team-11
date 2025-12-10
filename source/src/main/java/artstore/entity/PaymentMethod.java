@@ -22,8 +22,6 @@ public class PaymentMethod {
 
     private String provider;
     private String last4;
-
-    @Column(columnDefinition = "DATETIME DEFAULT GETDATE()")
     private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "paymentMethod")
@@ -36,3 +34,4 @@ public class PaymentMethod {
         }
     }
 }
+
