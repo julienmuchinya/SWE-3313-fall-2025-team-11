@@ -1,0 +1,87 @@
+body {
+    margin: 0;
+    background: #272e23;
+    font-family: "Georgia", serif;
+    color: #1a1a1a;
+}
+
+.header {
+    background: #c2a34a;
+    padding: 15px 0;
+    text-align: center;
+    font-size: 26px;
+    letter-spacing: 2px;
+    position: relative;
+}
+
+.back-btn {
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    background: #3a412f;
+    border: 2px solid #c3a95a;
+    padding: 6px 20px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.container {
+    width: 90%;
+    margin: 40px auto;
+    text-align: center;
+}
+
+.confirmation-box {
+    background: white;
+    border: 4px solid #c3a95a;
+    padding: 30px 60px;
+    width: 550px;
+    margin: 0 auto;
+    border-radius: 8px;
+}
+
+.check-icon {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 15px;
+}
+
+.confirmation-box h2 {
+    font-size: 26px;
+    color: #333;
+    margin-bottom: 25px;
+}
+
+.details {
+    font-size: 22px;
+    color: #333;
+    text-align: left;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    margin: 6px 0;
+}
+
+.total {
+    font-weight: bold;
+    margin-top: 10px;
+    font-size: 24px;
+}
+
+.button-container {
+    margin-top: 40px;
+}
+
+.complete-btn {
+    background: #556b2f;
+    color: white;
+    padding: 15px 40px;
+    border: 2px solid #c3a95a;
+    border-radius: 6px;
+    font-size: 18px;
+    cursor: pointer;
+}

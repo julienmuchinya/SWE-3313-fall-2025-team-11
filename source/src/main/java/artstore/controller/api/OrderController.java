@@ -41,10 +41,7 @@ public class OrderController {
 
         Order order = new Order();
         order.setUser(user);
-        order.setCreatedAt(LocalDateTime.now());
         order.setStatus("PENDING");
-        order.setPaymentMethod("CARD");      // simple default
-        order.setPaymentStatus("PENDING");
 
         List<CartItem> items = new ArrayList<>();
 

@@ -13,7 +13,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "Order") // Changed to "Order" for ERD consistency
+@Table(name = "orders") // Changed to "Order" for ERD consistency
 public class Order {
 
     @Id
