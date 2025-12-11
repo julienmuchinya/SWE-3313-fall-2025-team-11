@@ -16,5 +16,16 @@
 ## Data Storage Setup
 
 ## How to Start & Login 
+Regular user and admin are toggle buttons so first select whether you want to login as a regular user or admin.
+
+### User Login
+- Username : john
+- Password : john
+
+
+### Admin Login
+- Username : admin
+- Password : admin
+  
 
 ## Troubleshooting
