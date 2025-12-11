@@ -13,9 +13,9 @@
     </parent>
 
     <groupId>team-11</groupId>
-    <artifactId>art-store</artifactId>
+    <artifactId>artstore</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>art-store</name>
+    <name>artstore</name>
     <description>Art Store Spring Boot project</description>
 
     <properties>

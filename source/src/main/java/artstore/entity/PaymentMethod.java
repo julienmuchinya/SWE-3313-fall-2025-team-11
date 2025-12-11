@@ -17,7 +17,7 @@ public class PaymentMethod {
     private long paymentMethodId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "UserId", nullable = false)
+    @JoinColumn(name = "userId", nullable = false)
     private User user;
 
     private String provider;

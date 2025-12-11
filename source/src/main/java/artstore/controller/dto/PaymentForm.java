@@ -1,4 +1,4 @@
-package artstore.dto;
+package artstore.controller.dto;
 
 import lombok.*;
 

@@ -1,6 +1,6 @@
 package artstore.controller.web;
 
-import artstore.dto.PaymentForm;
+import artstore.controller.dto.PaymentForm;
 import artstore.entity.ArtPiece;
 import artstore.entity.Order;
 import artstore.entity.Payment;

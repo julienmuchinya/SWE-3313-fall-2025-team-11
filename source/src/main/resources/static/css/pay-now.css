@@ -245,6 +245,7 @@ input::placeholder {
     margin-top: 25px;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 0 4px 15px rgba(85, 107, 47, 0.3);
+    
 }
 
 .confirm-btn:hover {

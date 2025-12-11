@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "OrderItem")   // matches ERD "OrderItem" table
+@Table(name = "OrderItem")   
 public class CartItem {
 
     @Id
@@ -23,8 +23,10 @@ public class CartItem {
     @JoinColumn(name = "productId", unique = true)
     private ArtPiece artPiece;
 
-    // kept for compatibility – but in your logic you always use quantity = 1
+    @Transient
     private Integer quantity;
+
+    @Transient
     private BigDecimal unitPrice;
 
     public CartItem() {

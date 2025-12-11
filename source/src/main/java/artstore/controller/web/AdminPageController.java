@@ -3,7 +3,6 @@ package artstore.controller.web;
 import artstore.entity.ArtPiece;
 import artstore.entity.Order;
 import artstore.entity.User;
-import artstore.model.EditItemForm;
 import artstore.model.InventoryItemForm;
 import artstore.model.PromoteAdminForm;
 
@@ -60,7 +59,6 @@ public class AdminPageController{
 
         model.addAttribute("promoteAdminForm", new PromoteAdminForm());
         model.addAttribute("inventoryItemForm", new InventoryItemForm());
-        model.addAttribute("editItemForm", new EditItemForm());
         model.addAttribute("orders", paidOrders);
         model.addAttribute("grandTotal", grandTotal);
         model.addAttribute("totalSales", paidOrders.size());
@@ -157,64 +155,7 @@ public class AdminPageController{
         return null;
     }
 
-    @PostMapping("/inventory/edit")
-    @ResponseBody
-    public String editInventory(@ModelAttribute EditItemForm editForm) {
-        try {
-            Optional<ArtPiece> artPieceOpt = ArtPieceRepository.findById(editForm.getProductId());
-            if (artPieceOpt.isEmpty()) {
-                return "Item not found.";
-            }
-
-            ArtPiece artPiece = artPieceOpt.get();
-
-            // Check if item is unsold (active and not in an order)
-            if (!artPiece.isActive() || artPiece.getOrderItem() != null) {
-                return "Cannot edit sold items.";
-            }
-
-            // Validate required fields
-            if (editForm.getTitle() == null || editForm.getTitle().trim().isEmpty()) {
-                return "Name is required.";
-            }
-            if (editForm.getArtistName() == null || editForm.getArtistName().trim().isEmpty()) {
-                return "Artist is required.";
-            }
-            if (editForm.getDescription() == null || editForm.getDescription().trim().isEmpty()) {
-                return "Description is required.";
-            }
-            if (editForm.getPrice() == null) {
-                return "Price is required.";
-            }
-
-            // Update fields
-            artPiece.setTitle(editForm.getTitle());
-            artPiece.setArtistName(editForm.getArtistName());
-            artPiece.setDescription(editForm.getDescription());
-            artPiece.setPrice(editForm.getPrice());
-
-            // Handle image update
-            MultipartFile newImage = editForm.getImage();
-            if (newImage != null && !newImage.isEmpty()) {
-                try {
-                    String imageUrl = Base64.getEncoder().encodeToString(newImage.getBytes());
-                    imageUrl = "data:" + newImage.getContentType() + ";base64," + imageUrl;
-                    artPiece.setImageUrl(imageUrl);
-                } catch (IOException e) {
-                    return "Failed to update image.";
-                }
-            } else if (editForm.getExistingImageUrl() != null) {
-                // Keep existing image if no new one provided
-                artPiece.setImageUrl(editForm.getExistingImageUrl());
-            }
-
-            // Save to database
-            ArtPieceRepository.save(artPiece);
-            return "Item successfully updated.";
-        } catch (Exception e) {
-            return "Error updating item: " + e.getMessage();
-        }
-    }
+    
 
     @PostMapping("/inventory/delete/{id}")
     @ResponseBody

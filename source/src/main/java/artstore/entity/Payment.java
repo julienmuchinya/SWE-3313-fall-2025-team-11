@@ -18,11 +18,11 @@ public class Payment {
 
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "OrderId", nullable = false, unique = true)
+    @JoinColumn(name = "orderId", nullable = false, unique = true)
     private Order order;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "PaymentMethodId", nullable = false)
+    @JoinColumn(name = "paymentMethodId", nullable = false)
     private PaymentMethod paymentMethod;
 
     private BigDecimal amount;

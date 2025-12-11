@@ -6,7 +6,7 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "users")
+@Table(name = "user")   
 @Getter
 @Setter
 @NoArgsConstructor
@@ -16,23 +16,27 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")   
     private Integer userId;
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "username", nullable = false, unique = true)
     private String username;
 
+    @Column(name = "first_name") 
     private String firstName;
+
+    @Column(name = "last_name")  
     private String lastName;
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false)
+    @Column(name = "password_hash", nullable = false)
     private String passwordHash;
 
-    @Column(nullable = false)
-    private String role;  // USER or ADMIN
+    @Column(name = "role", nullable = false)
+    private String role;
 
-    @Column(nullable = false)
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
 }

@@ -12,7 +12,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "orders") // avoid SQL keyword "order"
+@Table(name = "Orders") // avoid SQL keyword "order"
 public class Order {
 
     @Id
@@ -23,7 +23,7 @@ public class Order {
     // USER WHO PLACED THE ORDER
     // ============================
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "UserId")
+    @JoinColumn(name = "userId")
     private User user;
 
     // ============================
