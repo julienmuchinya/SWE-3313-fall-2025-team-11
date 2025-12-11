@@ -14,7 +14,7 @@
     [SQLite](https://www.sqlite.org/download.html)
   
 ## Data Storage Setup
-The database should load right in, however if it does not you will need to delete the database and reload the database [here](source/artstore.db)
+The database should load right in, however if it does not you will need to delete the database and reload the database found [here](source/)
 
  
 ## How to Start & Login 
