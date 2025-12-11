@@ -6,10 +6,7 @@ import artstore.entity.Order;
 import artstore.entity.Payment;
 import artstore.entity.PaymentMethod;
 import artstore.model.PayNowForm;
-import artstore.repository.ArtPieceRepository;
-import artstore.repository.OrderRepository;
-import artstore.repository.PaymentMethodRepository;
-import artstore.repository.PaymentRepository;
+import artstore.repository.*;
 import artstore.service.OrderService;
 import artstore.util.PriceCalculator;
 import artstore.util.SessionUtil;
@@ -35,19 +32,21 @@ public class PayNowController {
     private final OrderService orderService;
     private final PaymentMethodRepository paymentMethodRepository;
     private final PaymentRepository paymentRepository;
+    private final UserRepository userRepository;
 
     public PayNowController(
             OrderRepository orderRepository,
             ArtPieceRepository artPieceRepository,
             OrderService orderService,
             PaymentMethodRepository paymentMethodRepository,
-            PaymentRepository paymentRepository
-    ) {
+            PaymentRepository paymentRepository,
+            UserRepository userRepository) {
         this.orderRepository = orderRepository;
         this.artPieceRepository = artPieceRepository;
         this.orderService = orderService;
         this.paymentMethodRepository = paymentMethodRepository;
         this.paymentRepository = paymentRepository;
+        this.userRepository = userRepository;
     }
 
     @GetMapping("/pay-now")
@@ -154,7 +153,7 @@ public class PayNowController {
             }
 
             // Create order
-            Order order = orderService.createOrder(userId, productIds);
+            Order order = new  Order();
             if (order == null) {
                 redirectAttributes.addFlashAttribute("error", "Failed to create order");
                 return "redirect:/shopping-cart";
@@ -175,6 +174,7 @@ public class PayNowController {
 
             order.setTotalAmount(orderTotal);
             order.setStatus("PENDING");
+            order.setUser(userRepository.findById(userId).get());
             order = orderRepository.save(order);
 
             // Create payment method

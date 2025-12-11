@@ -32,10 +32,8 @@ public class Order {
     @Column(nullable = false)
     private LocalDateTime orderDate;
 
-    @Column(nullable = false)
     private String status;   // "PENDING", "PAID"
 
-    @Column(nullable = false)
     private BigDecimal totalAmount;
 
     @OneToOne(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
