@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign In</title>
+    <link rel="stylesheet" th:href="@{/css/sign-in.css}">
+
+    <style>
+        .button-row {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .role-btn.selected-role {
+            outline: 2px solid #ffffff;
+            opacity: 0.9;
+            transform: scale(1.02);
+        }
+
+        .error-msg {
+            color: #ff6b6b;
+            margin-top: 8px;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="bg-layer"></div>
+
+<a th:href="@{/index}" class="home-btn">Home</a>
+<a th:href="@{/sign-up}" class="second-btn">Sign Up</a>
+
+<div class="login-box">
+    <form th:action="@{/sign-in}" method="post">
+        <!-- THIS NAME MUST MATCH @RequestParam("usernameOrEmail") -->
+        <input type="text"
+               name="usernameOrEmail"
+               placeholder="Username / Email Address"
+               class="input-field">
+
+        <!-- THIS NAME MUST MATCH @RequestParam("password") -->
+        <input type="password"
+               name="password"
+               placeholder="Password"
+               class="input-field">
+
+        <!-- error message from backend -->
+        <div th:if="${error}" class="error-msg" th:text="${error}"></div>
+        <div th:if="${error == null}" class="error-msg" style="display:none;"></div>
+
+        <!-- Role selection buttons -->
+        <div class="button-row">
+            <button type="button"
+                    class="sign-in-btn role-btn"
+                    data-role="USER">
+                Regular User
+            </button>
+
+            <button type="button"
+                    class="sign-in-btn role-btn"
+                    data-role="ADMIN">
+                Admin
+            </button>
+        </div>
+
+        <!-- Hidden field to send loginType -->
+        <input type="hidden" name="loginType" id="loginType">
+
+        <!-- Submit button -->
+        <button type="submit" class="sign-in-btn" style="margin-top: 12px;">
+            Sign In
+        </button>
+    </form>
+</div>
+
+<script>
+    (function () {
+        const roleButtons = document.querySelectorAll('.role-btn');
+        const loginTypeInput = document.getElementById('loginType');
+        const form = document.querySelector('.login-box form');
+        const errorDiv = document.querySelector('.error-msg');
+
+        roleButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                roleButtons.forEach(b => b.classList.remove('selected-role'));
+                btn.classList.add('selected-role');
+
+                const role = btn.getAttribute('data-role');
+                loginTypeInput.value = role;
+
+                if (errorDiv) {
+                    if (errorDiv.textContent === 'Please select Regular User or Admin before signing in.') {
+                        errorDiv.textContent = '';
+                        errorDiv.style.display = 'none';
+                    }
+                }
+            });
+        });
+
+        form.addEventListener('submit', function (e) {
+            if (!loginTypeInput.value) {
+                e.preventDefault();
+                if (errorDiv) {
+                    errorDiv.textContent = 'Please select Regular User or Admin before signing in.';
+                    errorDiv.style.display = 'block';
+                }
+            }
+        });
+    })();
+</script>
+
+</body>
+</html>

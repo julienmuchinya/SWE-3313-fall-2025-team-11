@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>RAS Admin Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/admin-page.css}">
+</head>
+<body>
+
+<header class="topbar">
+    <a th:href="@{/}" class="home-btn">Home</a>
+    <div class="logo">RAS</div>
+</header>
+
+<div class="page">
+    <div class="left">
+        <h2>Sales Report</h2>
+        <div class="panel sales-panel">
+            <table class="sales-table">
+                <thead>
+                <tr>
+                    <th>Sale#</th>
+                    <th>Item Name</th>
+                    <th>Transaction Date</th>
+                    <th>Sale Value: $#</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="order : ${orders}">
+                    <td th:text="${order.orderId}">1234567890</td>
+                    <td>
+                        <span th:each="item, iterStat : ${order.items}">
+                            <span th:text="${item.artPiece.title}"></span><span th:if="${!iterStat.last}">, </span>
+                        </span>
+                    </td>
+                    <td th:text="${#temporals.format(order.orderDate, 'yyyy/MM/dd')}">2025/11/04</td>
+                    <td th:text="${#numbers.formatDecimal(order.totalAmount, 0, 2)}">311.89</td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(orders)}">
+                    <td colspan="4" style="text-align: center; color: #999; padding: 20px;">No sales yet</td>
+                </tr>
+                </tbody>
+            </table>
+
+            <div class="sales-footer">
+                <div>Total Sales: <span th:text="${totalSales}">0</span></div>
+                <div class="grand">Grand Total: $<span th:text="${#numbers.formatDecimal(grandTotal, 0, 2)}">0.00</span></div>
+            </div>
+
+            <div class="sales-actions">
+                <button class="small-btn" onclick="window.location.reload()">Refresh</button>
+                <button class="small-btn" onclick="exportToCSV()">Export to CSV</button>
+            </div>
+        </div>
+
+        <h2 style="margin-top: 30px;">All Items</h2>
+        <div class="panel items-panel">
+            <div class="items-tabs">
+                <button class="tab-btn active" onclick="showTab('unsold')">Unsold Items</button>
+                <button class="tab-btn" onclick="showTab('sold')">Sold Items</button>
+                <button class="tab-btn" onclick="showTab('all')">All Items</button>
+            </div>
+
+            <div id="unsold-tab" class="tab-content active">
+                <table class="items-table">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Artist</th>
+                        <th>Price</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="item : ${unsoldItems}">
+                        <td th:text="${item.productId}"></td>
+                        <td th:text="${item.title}"></td>
+                        <td th:text="${item.artistName}"></td>
+                        <td th:text="${'$' + #numbers.formatDecimal(item.price, 0, 2)}"></td>
+                        <td><span class="status-badge unsold">Available</span></td>
+                        <td>
+                            <button class="action-btn edit-btn" th:onclick="'loadEditForm(' + ${item.productId} + ')'">Edit</button>
+                            <button class="action-btn delete-btn" th:onclick="'deleteItem(' + ${item.productId} + ')'">Delete</button>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(unsoldItems)}">
+                        <td colspan="6" style="text-align: center; color: #999; padding: 20px;">No unsold items</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="sold-tab" class="tab-content">
+                <table class="items-table">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Artist</th>
+                        <th>Price</th>
+                        <th>Status</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="item : ${soldItems}">
+                        <td th:text="${item.productId}"></td>
+                        <td th:text="${item.title}"></td>
+                        <td th:text="${item.artistName}"></td>
+                        <td th:text="${'$' + #numbers.formatDecimal(item.price, 0, 2)}"></td>
+                        <td><span class="status-badge sold">Sold</span></td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(soldItems)}">
+                        <td colspan="5" style="text-align: center; color: #999; padding: 20px;">No sold items</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="all-tab" class="tab-content">
+                <table class="items-table">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Artist</th>
+                        <th>Price</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="item : ${allItems}">
+                        <td th:text="${item.productId}"></td>
+                        <td th:text="${item.title}"></td>
+                        <td th:text="${item.artistName}"></td>
+                        <td th:text="${'$' + #numbers.formatDecimal(item.price, 0, 2)}"></td>
+                        <td>
+                            <span class="status-badge" 
+                                  th:classappend="${item.isActive() && item.orderItem == null} ? 'unsold' : 'sold'"
+                                  th:text="${item.isActive() && item.orderItem == null} ? 'Available' : 'Sold'"></span>
+                        </td>
+                        <td>
+                            <span th:if="${item.isActive() && item.orderItem == null}">
+                                <button class="action-btn edit-btn" th:onclick="'loadEditForm(' + ${item.productId} + ')'">Edit</button>
+                                <button class="action-btn delete-btn" th:onclick="'deleteItem(' + ${item.productId} + ')'">Delete</button>
+                            </span>
+                            <span th:if="${!item.isActive() || item.orderItem != null}" style="color: #999;">-</span>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(allItems)}">
+                        <td colspan="6" style="text-align: center; color: #999; padding: 20px;">No items</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="right">
+        <h3>Add New Inventory Item</h3>
+        <div class="panel">
+            <form id="inventory-add" th:action="@{/inventory/add}" th:object="${inventoryItemForm}" method="post" enctype="multipart/form-data">
+                <div class="form-row">
+                    <label>Name:</label>
+                    <input type="text" th:field="*{title}" required>
+                </div>
+                <div class="form-row">
+                    <label>Artist:</label>
+                    <input type="text" th:field="*{artistName}" required>
+                </div>
+                <div class="form-row">
+                    <label>Description:</label>
+                    <textarea th:field="*{description}" required></textarea>
+                </div>
+                <div class="form-row">
+                    <label>Price:</label>
+                    <input type="number" step="0.01" th:field="*{price}" required>
+                </div>
+                <div class="form-row">
+                    <label>Image:</label>
+                    <input type="file" name="image" accept="image/*" required>
+                </div>
+                <div id="add-result"></div>
+                <div style="text-align:right;">
+                    <button type="submit" class="small-btn">Add to Inventory</button>
+                </div>
+            </form>
+        </div>
+
+        <hr class="divider">
+
+        <!-- <h3>Edit Inventory Item</h3>
+        <div class="panel">
+            <form id="inventory-edit" th:action="@{/inventory/edit}" th:object="${editItemForm}" method="post" enctype="multipart/form-data">
+                <input type="hidden" th:field="*{productId}" id="edit-productId">
+                <input type="hidden" th:field="*{existingImageUrl}" id="edit-existingImageUrl">
+                
+                <div class="form-row">
+                    <label>Name:</label>
+                    <input type="text" th:field="*{title}" id="edit-title" required>
+                </div>
+                <div class="form-row">
+                    <label>Artist:</label>
+                    <input type="text" th:field="*{artistName}" id="edit-artistName" required>
+                </div>
+                <div class="form-row">
+                    <label>Description:</label>
+                    <textarea th:field="*{description}" id="edit-description" required></textarea>
+                </div>
+                <div class="form-row">
+                    <label>Price:</label>
+                    <input type="number" step="0.01" th:field="*{price}" id="edit-price" required>
+                </div>
+                <div class="form-row">
+                    <label>Image (leave empty to keep current):</label>
+                    <input type="file" name="image" accept="image/*" id="edit-image">
+                    <div id="current-image-preview" style="margin-top: 10px;"></div>
+                </div>
+                <div id="edit-result"></div>
+                <div style="text-align:right;">
+                    <button type="submit" class="small-btn">Update Item</button>
+                    <button type="button" class="small-btn cancel-btn" onclick="clearEditForm()">Cancel</button>
+                </div>
+            </form>
+        </div> -->
+
+        <hr class="divider">
+
+        <h3>Promote New Admin</h3>
+        <div class="panel small">
+            <form id="promote-admin" th:action="@{/promote/admin}" th:object="${promoteAdminForm}" method="post">
+                <div class="form-row">
+                    <label>Username:</label>
+                    <input type="text" th:field="*{username}" required>
+                </div>
+                <div class="form-row">
+                    <label>Confirm Username:</label>
+                    <input type="text" th:field="*{confirmUsername}" required>
+                </div>
+                <div id="promote-result"></div>
+                <div style="text-align:right;">
+                    <button type="submit" class="small-btn">Promote</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    function showTab(tabName) {
+        // Hide all tabs
+        document.querySelectorAll('.tab-content').forEach(tab => {
+            tab.classList.remove('active');
+        });
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+
+        // Show selected tab
+        document.getElementById(tabName + '-tab').classList.add('active');
+        event.target.classList.add('active');
+    }
+
+    function loadEditForm(productId) {
+        fetch('/inventory/edit/' + productId)
+            .then(response => response.json())
+            .then(data => {
+                if (data) {
+                    document.getElementById('edit-productId').value = data.productId;
+                    document.getElementById('edit-title').value = data.title;
+                    document.getElementById('edit-artistName').value = data.artistName;
+                    document.getElementById('edit-description').value = data.description;
+                    document.getElementById('edit-price').value = data.price;
+                    document.getElementById('edit-existingImageUrl').value = data.existingImageUrl || '';
+                    
+                    // Show current image preview
+                    if (data.existingImageUrl) {
+                        document.getElementById('current-image-preview').innerHTML = 
+                            '<p style="font-size: 12px; color: #666; margin: 5px 0;">Current Image:</p>' +
+                            '<img src="' + data.existingImageUrl + '" style="max-width: 200px; max-height: 150px; border-radius: 8px; border: 2px solid #c2a34a;">';
+                    }
+                    
+                    // Scroll to edit form
+                    document.getElementById('inventory-edit').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                } else {
+                    alert('Item not found');
+                }
+            })
+            .catch(error => {
+                console.error('Error loading item:', error);
+                alert('Error loading item for editing');
+            });
+    }
+
+    function clearEditForm() {
+        document.getElementById('inventory-edit').reset();
+        document.getElementById('edit-result').innerHTML = '';
+        document.getElementById('current-image-preview').innerHTML = '';
+    }
+
+    function deleteItem(productId) {
+        if (!confirm('Are you sure you want to delete this item? This action cannot be undone.')) {
+            return;
+        }
+
+        fetch('/inventory/delete/' + productId, {
+            method: 'POST'
+        })
+            .then(response => response.text())
+            .then(data => {
+                if (data.includes('successfully')) {
+                    alert(data);
+                    window.location.reload();
+                } else {
+                    alert(data);
+                }
+            })
+            .catch(error => {
+                console.error('Error deleting item:', error);
+                alert('Error deleting item');
+            });
+    }
+
+    document.getElementById("inventory-add").addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        const formData = new FormData(this);
+        const resultDiv = document.getElementById("add-result");
+
+        fetch('/inventory/add', { method: 'POST', body: formData })
+            .then(response => response.text())
+            .then(data => {
+                resultDiv.innerHTML = '<div class="form-success">' + data + '</div>';
+                if (data.includes("successfully")) {
+                    this.reset();
+                    setTimeout(() => window.location.reload(), 1500);
+                }
+            })
+            .catch(error => {
+                resultDiv.innerHTML = '<div class="form-error">Error: ' + error + '</div>';
+            });
+    });
+
+    document.getElementById("inventory-edit").addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        const formData = new FormData(this);
+        const resultDiv = document.getElementById("edit-result");
+
+        fetch('/inventory/edit', { method: 'POST', body: formData })
+            .then(response => response.text())
+            .then(data => {
+                resultDiv.innerHTML = '<div class="form-success">' + data + '</div>';
+                if (data.includes("successfully")) {
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1500);
+                }
+            })
+            .catch(error => {
+                resultDiv.innerHTML = '<div class="form-error">Error: ' + error + '</div>';
+            });
+    });
+
+    document.getElementById("promote-admin").addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        const formData = new FormData(this);
+        const resultDiv = document.getElementById("promote-result");
+
+        fetch('/promote/admin', { method: 'POST', body: formData })
+            .then(response => response.text())
+            .then(data => {
+                resultDiv.innerHTML = '<div class="form-success">' + data + '</div>';
+                if (data.includes("successfully")) {
+                    this.reset();
+                }
+            })
+            .catch(error => {
+                resultDiv.innerHTML = '<div class="form-error">Error: ' + error + '</div>';
+            });
+    });
+
+    function exportToCSV() {
+        const table = document.querySelector('.sales-table');
+        let csv = [];
+        const rows = table.querySelectorAll('tr');
+
+        for (let i = 0; i < rows.length; i++) {
+            const row = [], cols = rows[i].querySelectorAll('td, th');
+            for (let j = 0; j < cols.length; j++) {
+                let data = cols[j].innerText.replace(/(\r\n|\n|\r)/gm, '').replace(/"/g, '""');
+                row.push('"' + data + '"');
+            }
+            csv.push(row.join(','));
+        }
+
+        const csvContent = csv.join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement('a');
+        const url = URL.createObjectURL(blob);
+        link.setAttribute('href', url);
+        link.setAttribute('download', 'sales_report_' + new Date().toISOString().split('T')[0] + '.csv');
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+</script>
+
+</body>
+</html>

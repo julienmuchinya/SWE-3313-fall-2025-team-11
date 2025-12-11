@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>RAS Shop</title>
+    <link rel="stylesheet" th:href="@{/css/inventory.css}">
+</head>
+<body>
+<header>
+    <div class="navbar">
+        <span class="logo">RAS</span>
+        <a th:href="@{/}"><button class="nav-btn">Home</button></a>
+        <a th:href="@{/admin-page}"><button class="nav-btn admin">Admin</button></a>
+        <a th:href="@{/shopping-cart}"><span class="cart-icon">🛒</span></a>
+    </div>
+</header>
+
+<div class="filters-container">
+    <div class="search-section">
+        <form method="get" action="/inventory" class="search-form">
+            <input type="text" 
+                   name="search" 
+                   placeholder="Search by title, artist, or description..." 
+                   th:value="${search}"
+                   class="search-input">
+            <button type="submit" class="search-btn">🔍 Search</button>
+            <button type="button" class="filter-btn" onclick="openFilterModal()">🔽 Filters</button>
+        </form>
+    </div>
+
+    <div class="results-info" th:if="${totalResults != null}">
+        <span th:text="${totalResults} + ' item(s) found'"></span>
+    </div>
+</div>
+
+<!-- Filter Modal -->
+<div id="filterModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Filter & Sort Options</h3>
+            <button class="close-btn" onclick="closeFilterModal()">&times;</button>
+        </div>
+        <div class="modal-body">
+            <form method="get" action="/inventory" class="filters-form" id="filtersForm">
+                <input type="hidden" name="search" th:value="${search}">
+                
+                <div class="filter-group">
+                    <label>Sort By:</label>
+                    <select name="sortBy" class="filter-select">
+                        <option value="price" th:selected="${sortBy == 'price'}">Price</option>
+                        <option value="title" th:selected="${sortBy == 'title'}">Title</option>
+                        <option value="artist" th:selected="${sortBy == 'artist'}">Artist</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label>Order:</label>
+                    <select name="sortOrder" class="filter-select">
+                        <option value="desc" th:selected="${sortOrder == 'desc'}">High to Low</option>
+                        <option value="asc" th:selected="${sortOrder == 'asc'}">Low to High</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label>Artist:</label>
+                    <select name="artistFilter" class="filter-select">
+                        <option value="">All Artists</option>
+                        <option th:each="artist : ${artists}" 
+                                th:value="${artist}" 
+                                th:text="${artist}"
+                                th:selected="${artistFilter == artist}"></option>
+                    </select>
+                </div>
+
+                <div class="filter-group price-range">
+                    <label>Price Range:</label>
+                    <div class="price-inputs">
+                        <input type="number" 
+                               name="minPrice" 
+                               placeholder="Min" 
+                               step="0.01"
+                               th:value="${minPrice}"
+                               class="price-input">
+                        <span>to</span>
+                        <input type="number" 
+                               name="maxPrice" 
+                               placeholder="Max" 
+                               step="0.01"
+                               th:value="${maxPrice}"
+                               class="price-input">
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="submit" class="apply-filters-btn">Apply Filters</button>
+                    <button type="button" class="clear-filters-btn" onclick="clearFilters()">Clear All</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="product-grid" th:if="${!artPieces.isEmpty()}">
+    <div th:each="artPiece : ${artPieces}" class="product-card" th:attr="data-id=${artPiece.productId}">
+        <img th:src="@{${artPiece.imageUrl}}" alt="art image">
+        <div class="product-info">
+            <h3 th:text="${artPiece.title}"></h3>
+            <p class="price">$<span th:text="${#numbers.formatDecimal(artPiece.price, 0, 2)}"></span></p>
+            <p>Artist: <span th:text="${artPiece.artistName}"></span></p>
+            <p th:text="${artPiece.description}"></p>
+            <button class="add-btn">Add to Cart</button>
+        </div>
+    </div>
+</div>
+
+<div class="no-results" th:if="${artPieces.isEmpty()}">
+    <p>No items found matching your criteria.</p>
+    <a th:href="@{/inventory}" class="browse-all-btn">Browse All Items</a>
+</div>
+
+<script>
+    function openFilterModal() {
+        document.getElementById('filterModal').style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeFilterModal() {
+        document.getElementById('filterModal').style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+
+    function clearFilters() {
+        window.location.href = '/inventory?search=' + encodeURIComponent(document.querySelector('input[name="search"]').value || '');
+    }
+
+    // Close modal when clicking outside
+    window.onclick = function(event) {
+        const modal = document.getElementById('filterModal');
+        if (event.target == modal) {
+            closeFilterModal();
+        }
+    }
+
+    // Close modal with Escape key
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') {
+            closeFilterModal();
+        }
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const addToCartButtons = document.querySelectorAll(".add-btn");
+
+        addToCartButtons.forEach(btn => {
+            btn.addEventListener("click", async (e) => {
+                const entry = e.target.closest(".product-card");
+                const productId = entry.dataset.id;
+
+                try {
+                    const response = await fetch(`/cart/add/${productId}`, {
+                        method: "POST"
+                    });
+
+                    const data = await response.json();
+
+                    if (data.success) {
+                        alert("Item added to cart!");
+                    } else {
+                        alert(data.message || "Failed to add item to cart.");
+                    }
+                } catch (error) {
+                    console.error("Error adding item to cart:", error);
+                    alert("Error adding item to cart. Please try again.");
+                }
+            });
+        });
+    });
+</script>
+
+<div class="pagination" th:if="${pageCount > 1}">
+    <span th:each="i : ${#numbers.sequence(1, pageCount)}">
+        <a th:href="@{/inventory(page=${i}, search=${search}, sortBy=${sortBy}, sortOrder=${sortOrder}, artistFilter=${artistFilter}, minPrice=${minPrice}, maxPrice=${maxPrice})}">
+            <button th:text="${i}" th:classappend="${i == currentPage}? 'active' : ''"></button>
+        </a>
+    </span>
+</div>
+</body>
+</html>

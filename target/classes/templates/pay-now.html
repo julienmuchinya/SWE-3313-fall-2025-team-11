@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Checkout</title>
+    <link rel="stylesheet" th:href="@{/css/pay-now.css}">
+</head>
+
+<body>
+
+<div class="header">
+    <a th:href="@{/shopping-cart}" class="back-btn">Back</a>
+    <span class="logo">RAS</span>
+</div>
+
+<div class="container">
+    <div th:if="${error}" class="error-message" th:text="${error}"></div>
+
+    <!-- Main single form -->
+    <form th:action="@{/pay-now/submit}" th:object="${payNowForm}" method="post">
+
+        <!-- Row 1 -->
+        <div class="row">
+            <div class="col">
+                <input type="text" placeholder="Full name" th:field="*{fullName}" required>
+            </div>
+            <div class="col">
+                <input type="text" placeholder="Address" th:field="*{address}" required>
+            </div>
+            <div class="col small-col">
+                <input type="text" placeholder="ZIP Code" th:field="*{zipCode}" required>
+            </div>
+        </div>
+
+        <!-- Row 2 -->
+        <div class="row">
+            <div class="col">
+                <input type="text" placeholder="Phone Number" th:field="*{phoneNumber}" required>
+            </div>
+            <div class="col smaller-col">
+                <select th:field="*{shippingMethod}" required>
+                    <option value="">Shipping Method</option>
+                    <option th:each="method: ${listShippingMethods}"
+                            th:value="${method}"
+                            th:text="${method}">
+                    </option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Items -->
+        <div class="item-row">
+            <div class="item" th:each="item : ${order.items}">
+                <img th:src="@{${item.artPiece.imageUrl}}" th:alt="${item.artPiece.title}">
+                <div th:text="${'$' + item.artPiece.price}"></div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Summary and Payment -->
+        <div class="bottom-section">
+
+            <!-- Summary -->
+            <div class="summary-box">
+                <div>Number of Items: <span th:text="${order.items.size()}">0</span></div>
+                <div>Subtotal: $<span th:text="${subtotal}">0.00</span></div>
+                <div>Discount: $<span>00.00</span></div>
+                <div>Shipping Fee: $<span th:text="${shippingFee}">0.00</span></div>
+                <div>Sales Tax: $<span th:text="${tax}">0.00</span></div>
+                <br>
+                <div><strong>Order Total: $<span th:text="${orderTotal}">0.00</span></strong></div>
+            </div>
+
+            <!-- Payment -->
+            <div class="payment-section">
+                <input type="text" placeholder="Credit Card Number" th:field="*{creditCardNumber}" required maxlength="19">
+
+                <div class="row small-gap">
+                    <div class="col">
+                        <input type="text" placeholder="Exp. Date" th:field="*{creditCardExpiryDate}" required placeholder="MM/YY">
+                    </div>
+                    <div class="col cvv-col">
+                        <input type="text" placeholder="CVV" th:field="*{creditCardCvv}" required maxlength="4">
+                    </div>
+                </div>
+                
+                <!-- <a th:href="@{/confirm-payment}" class="confirm-btn">Pay Now</a> -->
+                <!-- <a th:href="@{/confirm-payment}"><button>"Pay Now"</button></a> -->
+                <button class="confirm-btn" type="submit">CONFIRM ORDER</button>
+            </div>
+
+        </div>
+
+    </form>
+
+</div>
+
+<script>
+    // Format credit card number
+    document.querySelector('input[th\\:field*="creditCardNumber"]')?.addEventListener('input', function(e) {
+        let value = e.target.value.replace(/\s/g, '');
+        let formatted = value.match(/.{1,4}/g)?.join(' ') || value;
+        e.target.value = formatted;
+    });
+</script>
+
+</body>
+</html>
