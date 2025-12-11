@@ -75,10 +75,11 @@ This section contains a Marvel mockup of the website UI Design as well as a vide
 ## Video Presentation
 - Loom Video
 
-#Implementation
+# Implementation
 
-##Final Presentation
+## Final Presentation
 
 [Loom Video](https://www.loom.com/share/e0c3964de6ae48e19be8da46fe29cce2)
+
 
 
