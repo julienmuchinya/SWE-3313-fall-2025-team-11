@@ -74,14 +74,14 @@
 
             <!-- Payment -->
             <div class="payment-section">
-                <input type="text" placeholder="Credit Card Number" th:field="*{creditCardNumber}" required maxlength="19">
+                <input type="text" placeholder="Credit Card Number" th:field="*{creditCardNumber}" maxlength="19">
 
                 <div class="row small-gap">
                     <div class="col">
-                        <input type="text" placeholder="Exp. Date" th:field="*{creditCardExpiryDate}" required placeholder="MM/YY">
+                        <input type="text" placeholder="Exp. Date" th:field="*{creditCardExpiryDate}">
                     </div>
                     <div class="col cvv-col">
-                        <input type="text" placeholder="CVV" th:field="*{creditCardCvv}" required maxlength="4">
+                        <input type="text" placeholder="CVV" th:field="*{creditCardCvv}" maxlength="4">
                     </div>
                 </div>
                 
