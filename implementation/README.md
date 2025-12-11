@@ -14,7 +14,9 @@
     [SQLite](https://www.sqlite.org/download.html)
   
 ## Data Storage Setup
+The database should load right in, however if it does not you will need to delete the database and reload the database [here](source/artstore.db)
 
+ 
 ## How to Start & Login 
 Regular user and admin are toggle buttons so first select whether you want to login as a regular user or admin.
 
