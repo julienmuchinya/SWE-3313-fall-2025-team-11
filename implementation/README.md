@@ -34,3 +34,4 @@ Regular user and admin are toggle buttons so first select whether you want to lo
 - Art pieces shared between users, if one logs out and another logs in items remain in cart.
 - Receipt total calculated incorrectly
 - Changing shipping method does not visually change checkout total
+- Buying an item does not remove it from the inventory
